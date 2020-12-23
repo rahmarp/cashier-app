@@ -1,0 +1,66 @@
+{
+    "categories":[
+        {
+            "id": 0,
+            "title": "Foods"
+        },
+        {
+            "id":1,
+            "title": "Beverages"
+        },
+        {
+            "id":2,
+            "title": "Package Menu"
+        },
+        {
+            "id":3,
+            "title": "Dessert"
+        },
+        {
+            "id":4,
+            "title": "Minuman"
+        },
+        {
+            "id":5,
+            "title": "Minuman"
+        }
+    ],
+    "menu": [
+        {
+            "menu": "Nasi Goreng",
+            "description": "Nasi Goreng",
+            "price": 25000,
+            "category": 0
+        },
+        {
+            "menu": "Nasi Putih",
+            "description": "Nasi Putih",
+            "price": 9000,
+            "category": 0
+        },
+        {
+            "menu": "Mie Goreng",
+            "description": "Mie Goreng",
+            "price": 20000,
+            "category": 0
+        },
+        {
+            "menu": "Mie Kuah",
+            "description": "Mie Kuah",
+            "price": 10000,
+            "category": 0
+        },
+        {
+            "menu": "Teh",
+            "description": "Teh",
+            "price": 5000,
+            "category": 1
+        },
+        {
+            "menu": "Milkshake",
+            "description": "Milkshake",
+            "price": 10000,
+            "category": 1
+        }
+
+]}

@@ -14,7 +14,7 @@ function App() {
       <Switch>
         <Route path="/" exact component ={RegistrationPage} />
         <Route path="/menu" component={asyncMenu} />
-        {/* <Redirect to="/" /> */}
+        <Redirect to="/" />
       </Switch>
     </div>
   );
