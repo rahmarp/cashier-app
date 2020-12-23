@@ -1,6 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
-import RegistrationPage from './containers/RegistrationPage';
+import RegistrationPage from './containers/RegistrationPage/RegistrationPage';
 
 function App() {
   return (
