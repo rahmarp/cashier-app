@@ -19,6 +19,10 @@ const useStyles = makeStyles((theme) => ({
       submit: {
         margin: theme.spacing(3, 0, 2),
       },
+      error: {
+          color: 'red',
+          textAlign: 'left'
+      }
 }))
 
 
@@ -45,17 +49,19 @@ export default function RegistrationForm(props) {
                         name="name"
                         onChange={(event) => props.onChanged(event,"name")}
                     />
+                    { props.error.length > 0 ? <span className={classes.error}>{props.error}</span> : ''}
                     <TextField
                         id="outlined-read-only-input"
                         margin="normal"
                         fullWidth
                         label="Table"
+                        type="number"
                         // InputProps={{
                         //   readOnly: true,
                         // }}
                         variant="outlined"
                         name="table"
-                        onChange={(event) => props.onChanged(event,"table")}
+                        value={props.tableValue}
                     />
                     <Button
                         // type="submit"
