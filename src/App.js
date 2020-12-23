@@ -1,3 +1,5 @@
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Redirect, Route, Switch, withRouter } from 'react-router';
 import './App.css';
 // import RegistrationForm from './components/RegistrationForm/RegistrationForm';
@@ -7,17 +9,36 @@ import asyncComponent from './hoc/asyncComponent/asyncComponent';
 const asyncMenu = asyncComponent(() => {
   return import('./containers/MenuPage/MenuPage')
 })
-function App() {
-  return (
-    <div className="App">
-      {/* <RegistrationPage /> */}
+class App extends Component {
+  render(){
+    let routes = (
       <Switch>
         <Route path="/" exact component ={RegistrationPage} />
-        <Route path="/menu" component={asyncMenu} />
         <Redirect to="/" />
       </Switch>
+    )
+
+    if (this.props.isRegistered) {
+      routes = (
+        <Switch>
+          <Route path="/" exact component ={RegistrationPage} />
+          <Route path="/menu" component={asyncMenu} />
+          <Redirect to="/" />
+        </Switch>
+      )
+    }
+    return (
+    <div className="App">
+      {routes}      
     </div>
   );
+  }
 }
 
-export default withRouter(App);
+const mapStateToProps = state => {
+  return {
+    isRegistered: state.user.users !== ''
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(App));
