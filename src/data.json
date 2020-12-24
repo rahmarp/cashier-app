@@ -18,11 +18,11 @@
         },
         {
             "id":4,
-            "title": "Minuman"
+            "title": "Family Pack"
         },
         {
             "id":5,
-            "title": "Minuman"
+            "title": "On The Go"
         }
     ],
     "menu": [
@@ -55,6 +55,24 @@
             "description": "Teh",
             "price": 5000,
             "category": 1
+        },
+        {
+            "menu": "Milkshake",
+            "description": "Milkshake",
+            "price": 10000,
+            "category": 1
+        },
+        {
+            "menu": "Ice Cream",
+            "description": "Ice Cream",
+            "price": 10000,
+            "category": 3
+        },
+        {
+            "menu": "Paket Berbuka",
+            "description": "Nasi Goreng, Teh",
+            "price": 10000,
+            "category": 2
         },
         {
             "menu": "Milkshake",
