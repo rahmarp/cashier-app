@@ -7,7 +7,8 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import data from '../../data.json'
-
+import Section from './TextSection';
+import dummyText from "./DummyText";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -46,7 +47,7 @@ function a11yProps(index) {
 const tabNav = Object.keys( data.categories )
 .map( (catKey, index) => {
     return (
-        <Tab key={index} label={data.categories[catKey].title} {...a11yProps(index)} />
+        <Tab key={index} to="section5" label={data.categories[catKey].title} {...a11yProps(index)}></Tab>
     )
 })
 const useStyles = makeStyles((theme) => ({
@@ -103,6 +104,36 @@ export default function ScrollableTabsButtonAuto() {
       <TabPanel value={value} index={6}>
         Item Seven
       </TabPanel>
+                <Section
+                title="Section 1"
+                subtitle={dummyText}
+                dark={true}
+                id="section1"
+                />
+                <Section
+                title="Section 2"
+                subtitle={dummyText}
+                dark={false}
+                id="section2"
+                />
+                <Section
+                title="Section 3"
+                subtitle={dummyText}
+                dark={true}
+                id="section3"
+                />
+                <Section
+                title="Section 4"
+                subtitle={dummyText}
+                dark={false}
+                id="section4"
+                />
+                <Section
+                title="Section 5"
+                subtitle={dummyText}
+                dark={true}
+                id="section5"
+                />
     </div>
   );
 }
