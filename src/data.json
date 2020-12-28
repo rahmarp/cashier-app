@@ -28,7 +28,7 @@
     "menu": [
         {
             "menu": "Nasi Goreng",
-            "description": "Nasi Goreng",
+            "description": "Nasi + Daging Rendang + Sayur + Sambal + Kuah + Daun Singkong + Asli Masakan Padang",
             "price": 25000,
             "category": 0
         },
@@ -52,7 +52,7 @@
         },
         {
             "menu": "Teh",
-            "description": "Teh",
+            "description": "",
             "price": 5000,
             "category": 1
         },

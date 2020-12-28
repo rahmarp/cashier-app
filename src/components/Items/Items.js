@@ -5,7 +5,10 @@ import Item from './Item/Item';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        padding: '2rem'
+        padding: '1rem'
+    },
+    header: {
+        paddingBottom: '1rem'
     }
 }))
 
@@ -15,7 +18,7 @@ export default function Items() {
         .map( (catKey, index) => {
             return (
                 <div key={index} id={data.categories[catKey].title} className={classes.root}>
-                    <Typography variant="h6" >{data.categories[catKey].title}</Typography>
+                    <Typography variant="h6" className={classes.header} >{data.categories[catKey].title}</Typography>
                     <Item categories={data.categories[catKey].id}></Item>
                 </div>
             )

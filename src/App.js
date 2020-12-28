@@ -5,6 +5,7 @@ import './App.css';
 // import RegistrationForm from './components/RegistrationForm/RegistrationForm';
 import RegistrationPage from './containers/RegistrationPage/RegistrationPage';
 import asyncComponent from './hoc/asyncComponent/asyncComponent';
+import "@fontsource/roboto"
 
 const asyncMenu = asyncComponent(() => {
   return import('./containers/MenuPage/MenuPage')

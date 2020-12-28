@@ -1,5 +1,6 @@
 import { makeStyles } from '@material-ui/core'
 import React from 'react'
+import { NavLink } from 'react-router-dom';
 import { Link } from 'react-scroll'
 import data from '../../data.json';
 
@@ -40,6 +41,12 @@ const useStyles = makeStyles((theme) => ({
     },
     active: {
         borderBottom: '1x solid #333'
+    },
+    link: {
+      "&.active":{
+        borderBottom: '1x solid #333'
+      },
+      borderBottom: '1x solid #333',
     }
 
 
@@ -53,7 +60,8 @@ export default function NavigationMenu() {
         return (
           <li key={index} className={classes.navItem}>
             <Link 
-              activeClass={classes.active}
+              activeClassName="active"
+              className={classes.link}
               to={data.categories[catKey].title}
               spy={true}
               smooth={true}
