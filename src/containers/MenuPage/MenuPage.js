@@ -5,7 +5,6 @@ import Items from '../../components/Items/Items';
 import NavigationMenu from '../../components/NavigationMenu/NavigationMenu'
 import asyncComponent from '../../hoc/asyncComponent/asyncComponent';
 import * as actions from '../../store/actions/index';
-import data from '../../data.json'
 
 const asyncMenuDetails = asyncComponent(() => {
     return import('../ItemDetails/ItemDetails')
