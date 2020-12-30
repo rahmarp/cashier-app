@@ -54,7 +54,9 @@ class RegistrationPage extends Component {
             const user = this.state.name
             const table= this.state.table
             this.props.onAddUser(user, table)
-            this.props.history.push('/menu')
+            this.props.onInitCategories()
+            this.props.onInitMenu()
+            this.props.history.push('/menu')            
           }
 
       }
@@ -76,7 +78,9 @@ class RegistrationPage extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddUser: (user,table) => dispatch(actions.addUser(user,table))
+        onAddUser: (user,table) => dispatch(actions.addUser(user,table)),
+        onInitCategories: () => dispatch(actions.setCategories()),
+        onInitMenu: () => dispatch(actions.setMenu())
     }
 }
 

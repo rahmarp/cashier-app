@@ -3,17 +3,22 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { combineReducers, createStore } from 'redux';
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import userReducer from './store/reducers/user'
+import itemReducer from './store/reducers/item'
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import ReduxThunk from 'redux-thunk';
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+const composeEnhancers = process.env.NODE_ENV === 'develpoment' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 const rootReducer = combineReducers({
-  user: userReducer
+  user: userReducer,
+  item: itemReducer
 })
 
-const store = createStore(rootReducer, composeEnhancers )
+const store = createStore(rootReducer, composeEnhancers(
+  applyMiddleware(ReduxThunk)
+) )
 ReactDOM.render(
   <Provider store={store}>
   <React.StrictMode>

@@ -1,6 +1,5 @@
 import { makeStyles, Typography } from '@material-ui/core';
 import React from 'react'
-import data from '../../data.json';
 import Item from './Item/Item';
 
 const useStyles = makeStyles((theme) => ({
@@ -12,14 +11,14 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-export default function Items() {
+export default function Items(props) {
     const classes = useStyles();
-    const itemCategory = Object.keys(data.categories)
+    const itemCategory = Object.keys(props.items)
         .map( (catKey, index) => {
             return (
-                <div key={index} id={data.categories[catKey].title} className={classes.root}>
-                    <Typography variant="h6" className={classes.header} >{data.categories[catKey].title}</Typography>
-                    <Item categories={data.categories[catKey].id}></Item>
+                <div key={index} id={props.items[catKey].title} className={classes.root}>
+                    <Typography variant="h6" className={classes.header} >{props.items[catKey].title}</Typography>
+                    <Item categories={props.items[catKey].id}></Item>
                 </div>
             )
         })

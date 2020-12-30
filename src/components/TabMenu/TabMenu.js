@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core'
 import React from 'react'
-import { Link } from 'react-scroll'
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     nav: {
@@ -51,23 +51,14 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-export default function NavigationMenu(props) {
+export default function TabMenu(props) {
     const classes = useStyles();
+    console.log(props.items)
     const listItem = Object.keys( props.items )
       .map( (catKey, index) => {
         return (
           <li key={index} className={classes.navItem}>
-            <Link 
-              activeClass="active"
-              className={classes.link}
-              to={props.items[catKey].title}
-              spy={true}
-              smooth={true}
-              offset={-70}
-              duration={500}>
-                {props.items[catKey].title}
-              </Link>
-              
+                {props.items[catKey].menu}
           </li>
         )
       })
@@ -75,6 +66,9 @@ export default function NavigationMenu(props) {
         <nav className={classes.nav}>
             <div className={classes.navContent}>
             <ul className={classes.navItems}>
+                <li className={classes.navItem}>
+                    <Link to="/menu">Back</Link>
+                </li>
             {listItem}
             </ul>
             </div>

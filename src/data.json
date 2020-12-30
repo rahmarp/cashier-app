@@ -27,54 +27,63 @@
     ],
     "menu": [
         {
+            "id":0,
             "menu": "Nasi Goreng",
             "description": "Nasi + Daging Rendang + Sayur + Sambal + Kuah + Daun Singkong + Asli Masakan Padang",
             "price": 25000,
             "category": 0
         },
         {
+            "id":1,
             "menu": "Nasi Putih",
             "description": "Nasi Putih",
             "price": 9000,
             "category": 0
         },
         {
+            "id":2,
             "menu": "Mie Goreng",
             "description": "Mie Goreng",
             "price": 20000,
             "category": 0
         },
         {
+            "id":3,
             "menu": "Mie Kuah",
             "description": "Mie Kuah",
             "price": 10000,
             "category": 0
         },
         {
+            "id":4,
             "menu": "Teh",
             "description": "",
             "price": 5000,
             "category": 1
         },
         {
+            "id":5,
             "menu": "Milkshake",
             "description": "Milkshake",
             "price": 10000,
             "category": 1
         },
         {
+            "id":6,
             "menu": "Ice Cream",
             "description": "Ice Cream",
             "price": 10000,
             "category": 3
         },
         {
+            "id":7,
             "menu": "Paket Berbuka",
             "description": "Nasi Goreng, Teh",
             "price": 10000,
             "category": 2
         },
         {
+            "id":8,
             "menu": "Milkshake",
             "description": "Milkshake",
             "price": 10000,

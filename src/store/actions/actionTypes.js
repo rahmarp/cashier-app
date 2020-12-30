@@ -1,1 +1,5 @@
 export const ADD_USER = 'ADD_USER'
+
+export const SET_CATEGORIES = 'SET_CATEGORIES'
+export const SET_MENU = 'SET_MENU'
+export const FETCH_CATEGORIES_FAILED = 'FETCH_CATEGORIES_FAILED'

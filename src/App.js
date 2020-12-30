@@ -10,6 +10,10 @@ import "@fontsource/roboto"
 const asyncMenu = asyncComponent(() => {
   return import('./containers/MenuPage/MenuPage')
 })
+
+const asyncMenuDetails = asyncComponent(() => {
+  return import('./containers/ItemDetails/ItemDetails')
+})
 class App extends Component {
   render(){
     let routes = (
@@ -23,7 +27,8 @@ class App extends Component {
       routes = (
         <Switch>
           <Route path="/" exact component ={RegistrationPage} />
-          <Route path="/menu" component={asyncMenu} />
+          <Route path="/menu" exact component={asyncMenu} />
+          <Route path="/menu/:id" exact component={asyncMenuDetails} />
           <Redirect to="/" />
         </Switch>
       )
