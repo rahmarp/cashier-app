@@ -51,33 +51,36 @@ const useStyles = makeStyles((theme) => ({
 
 function DetailItem(props) {
     const classes = useStyles();
-    const item = Object.keys(props.menu).filter(obj => props.menu[obj].id === props.id)
-                .map(obj => ({
-                  "id": props.menu[obj].id,
-                  "menu": props.menu[obj].menu,
-                  "description": props.menu[obj].description,
-                  "price": props.menu[obj].price
+    const id = parseInt(props.id)
+    const item = Object.keys(props.menu)
+                  .filter(obj => props.menu[obj].id === id)
+                .map(obbj => ({
+                  "id": props.menu[obbj].id,
+                  "menu": props.menu[obbj].menu,
+                  "description": props.menu[obbj].description,
+                  "price": props.menu[obbj].price
               }))
+    console.log(item)
     const listItem = Object.keys( item )
     .map( (catKey) => {
-    return (
-        <div>
-            <hr className={classes.hr}/>
-            <Grid container spacing={0}>
-            <Grid item xs={8}>
-            <Typography className={classes.menu}>{item[catKey].menu}</Typography>
-            </Grid>
-            <Grid item xs={4}>
-            <Typography className={classes.price}>
-            <NumberFormat value={item[catKey].price} displayType={'text'} thousandSeparator={true} prefix={'Rp '} /></Typography>
-            </Grid>
-            <Grid item xs={12}>
-            <Typography className={classes.description}>{item[catKey].description}</Typography>
-            </Grid>
-            </Grid>
-            <hr className={classes.hr}/>
-        </div>
-    )
+        return (
+            <div>
+                <hr className={classes.hr}/>
+                <Grid container spacing={0}>
+                <Grid item xs={8}>
+                <Typography className={classes.menu}>{item[catKey].menu}</Typography>
+                </Grid>
+                <Grid item xs={4}>
+                <Typography className={classes.price}>
+                <NumberFormat value={item[catKey].price} displayType={'text'} thousandSeparator={true} prefix={'Rp '} /></Typography>
+                </Grid>
+                <Grid item xs={12}>
+                <Typography className={classes.description}>{item[catKey].description}</Typography>
+                </Grid>
+                </Grid>
+                <hr className={classes.hr}/>
+            </div>
+        )
     })
     return (
         <div>

@@ -53,8 +53,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TabMenu(props) {
     const classes = useStyles();
-    console.log(props.items)
+    const id = parseInt(props.id)
     const listItem = Object.keys( props.items )
+      .filter(obj => props.items[obj].id === id)
       .map( (catKey, index) => {
         return (
           <li key={index} className={classes.navItem}>
