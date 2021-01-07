@@ -14,6 +14,9 @@ const asyncMenu = asyncComponent(() => {
 const asyncMenuDetails = asyncComponent(() => {
   return import('./containers/ItemDetails/ItemDetails')
 })
+const asyncCart = asyncComponent(() => {
+  return import('./containers/CartPage/CartPage')
+})
 class App extends Component {
   render(){
     let routes = (
@@ -29,6 +32,7 @@ class App extends Component {
           <Route path="/" exact component ={RegistrationPage} />
           <Route path="/menu" exact component={asyncMenu} />
           <Route path="/menu/:id" exact component={asyncMenuDetails} />
+          <Route path="/cart" exact component={asyncCart} />
           <Redirect to="/" />
         </Switch>
       )

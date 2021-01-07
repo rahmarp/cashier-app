@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     },
     imgContainer: {
       width: '100%',
-      backgroundImage: `url(${require('../../assets/nasi.jpeg')})`,
+      backgroundImage: `url(${require('../../../assets/nasi.jpeg')})`,
       backgroundPosition: 'center',
       backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat',
@@ -51,40 +51,28 @@ const useStyles = makeStyles((theme) => ({
 
 function DetailItem(props) {
     const classes = useStyles();
-    const id = parseInt(props.id)
-    const item = Object.keys(props.menu)
-                  .filter(obj => props.menu[obj].id === id)
-                .map(obbj => ({
-                  "id": props.menu[obbj].id,
-                  "menu": props.menu[obbj].menu,
-                  "description": props.menu[obbj].description,
-                  "price": props.menu[obbj].price
-              }))
-    console.log(item)
-    const listItem = Object.keys( item )
-    .map( (catKey) => {
+    const detail = Object.keys(props.menu)
+      .map(obj => {
         return (
-            <div>
-                <hr className={classes.hr}/>
-                <Grid container spacing={0}>
+          <Grid container spacing={0} key={props.menu[obj].menu}>
                 <Grid item xs={8}>
-                <Typography className={classes.menu}>{item[catKey].menu}</Typography>
+                <Typography className={classes.menu}>{props.menu[obj].menu}</Typography>
                 </Grid>
                 <Grid item xs={4}>
                 <Typography className={classes.price}>
-                <NumberFormat value={item[catKey].price} displayType={'text'} thousandSeparator={true} prefix={'Rp '} /></Typography>
+                <NumberFormat value={props.menu[obj].price} displayType={'text'} thousandSeparator={true} prefix={'Rp '} /></Typography>
                 </Grid>
                 <Grid item xs={12}>
-                <Typography className={classes.description}>{item[catKey].description}</Typography>
+                <Typography className={classes.description}>{props.menu[obj].description}</Typography>
                 </Grid>
                 </Grid>
-                <hr className={classes.hr}/>
-            </div>
         )
-    })
+      })
     return (
         <div>
-             {listItem}
+             <hr className={classes.hr}/>
+                {detail}
+              <hr className={classes.hr}/>
         </div>
     )
 }

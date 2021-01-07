@@ -37,8 +37,8 @@ const useStyles = makeStyles((theme) => ({
 
 export const Item = (props) => {
     const classes = useStyles();
-    const menu = useSelector(state => state.item.menu)
-    const devReact = Object.keys(menu).filter(obj => menu[obj].category === (props.categories))
+    const menu = useSelector(state => state.item.menu)    
+    const devReact = Object.keys(menu).filter(obj => menu[obj].categoryId === (props.categories))
         .map(obj => ({
             "id": menu[obj].id,
             "menu":menu[obj].menu,
@@ -49,8 +49,8 @@ export const Item = (props) => {
         .map( (menuKey, index) => {
             return (
                 <div key={index} id={devReact[menuKey].menu} className={classes.root}>
-                    <Link to={`/menu/${devReact[menuKey].id}`}>
-                    <Grid container spacing={3}>
+                    <Link to={`/menu/${devReact[menuKey].menu}`}>
+                    <Grid container spacing={3} onClick={() => props.getItem(devReact[menuKey].menu)}>
                         <Grid item xs={4}>
                         <img src={Nasi} alt={devReact[menuKey].menu} className={classes.img}/>
                         </Grid>

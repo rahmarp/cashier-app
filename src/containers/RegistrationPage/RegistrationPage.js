@@ -21,7 +21,6 @@ class RegistrationPage extends Component {
           this.setState({
             [field]: event.target.value
           })
-          console.log(this.state.table)
       }
       validationForm = (errors) => {
         let valid = false;
@@ -46,7 +45,6 @@ class RegistrationPage extends Component {
           this.setState({
             errorName: error,
           })
-          console.log(user)
           if(this.validationForm(error)){
             this.props.history.push('/')
           }
@@ -54,8 +52,6 @@ class RegistrationPage extends Component {
             const user = this.state.name
             const table= this.state.table
             this.props.onAddUser(user, table)
-            this.props.onInitCategories()
-            this.props.onInitMenu()
             this.props.history.push('/menu')            
           }
 
@@ -78,9 +74,7 @@ class RegistrationPage extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddUser: (user,table) => dispatch(actions.addUser(user,table)),
-        onInitCategories: () => dispatch(actions.setCategories()),
-        onInitMenu: () => dispatch(actions.setMenu())
+        onAddUser: (user,table) => dispatch(actions.addUser(user,table))
     }
 }
 

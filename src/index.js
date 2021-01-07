@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import userReducer from './store/reducers/user'
 import itemReducer from './store/reducers/item'
+import cartReducer from './store/reducers/cart'
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import ReduxThunk from 'redux-thunk';
@@ -13,7 +14,8 @@ import ReduxThunk from 'redux-thunk';
 const composeEnhancers = process.env.NODE_ENV === 'develpoment' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 const rootReducer = combineReducers({
   user: userReducer,
-  item: itemReducer
+  item: itemReducer,
+  cart: cartReducer
 })
 
 const store = createStore(rootReducer, composeEnhancers(

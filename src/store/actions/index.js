@@ -3,6 +3,11 @@ export {
 } from './user'
 
 export {
-    setCategories,
-    setMenu
+    getMenu
 } from './item'
+
+export {
+    addCart,
+    updateCart,
+    deleteCart
+} from './cart'

@@ -13,7 +13,6 @@ const addUser = ( state, action ) => {
         users: updatedUser,
         table: updatedTable
     }
-    console.log(updatedObject(state, updatedState))
     return updatedObject(state, updatedState)
     
 }

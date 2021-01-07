@@ -4,6 +4,11 @@ import Item from './Item/Item';
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        padding: '1rem',
+        overflowY: 'scroll',
+        marginBottom: '80px'
+    },
+    itemContainer: {
         padding: '1rem'
     },
     header: {
@@ -16,14 +21,16 @@ export default function Items(props) {
     const itemCategory = Object.keys(props.items)
         .map( (catKey, index) => {
             return (
-                <div key={index} id={props.items[catKey].title} className={classes.root}>
+                <div key={index} id={props.items[catKey].title} className={classes.itemContainer}>
                     <Typography variant="h6" className={classes.header} >{props.items[catKey].title}</Typography>
-                    <Item categories={props.items[catKey].id}></Item>
+                    <Item 
+                        categories={props.items[catKey].id}
+                        getItem={props.item}></Item>
                 </div>
             )
-        })
+    })
     return (
-        <div>
+        <div className={classes.root}>
             {itemCategory}
         </div>
     )
