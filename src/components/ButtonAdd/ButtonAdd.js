@@ -4,23 +4,34 @@ import NumberFormat from 'react-number-format'
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    position: "fixed",
+    bottom: "0",
+    right: "0",
+    backgroundColor: "white",
+    width: "100%",
+    height: "100px",
+    textAlign: "center",
+    zIndex: "1000",
+    borderTop: '1px #CACACA solid'
+  },
     button: {
-        width: '70%',
-        float: 'auto',
-      },
-      buttonContainer: {
-        width: '100%',
-        textAlign: 'center',
-        position: 'absolute',
-        bottom: '2rem',
-        left: '0'
-      }
+      width: '70%',
+      float: 'auto',
+  },
+    buttonContainer: {
+      width: '100%',
+      textAlign: 'center',
+      position: 'absolute',
+      bottom: '2rem',
+      left: '0'
+  }
 }))
 
 function ButtonAdd(props) {
     const classes = useStyles();
     return (
-        <div>
+        <div className={classes.root}>
             <Grid item xs={12} className={classes.buttonContainer}>
             {
             props.count > 0 ? 

@@ -21,6 +21,8 @@ class MenuPage extends Component {
     
     getMenu = (menu) => {
         this.props.onGetMenu(menu)
+        this.props.onGetItemAdd(menu)
+        this.props.onGetItemLevel(menu)
     }
     getSubTotal(cart) {
         let subTotal = 0
@@ -66,7 +68,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return{
-        onGetMenu: (menu) => dispatch(actions.getMenu(menu))
+        onGetMenu: (menu) => dispatch(actions.getMenu(menu)),
+        onGetItemAdd: (menu) => dispatch(actions.getMenuAdd(menu)),
+        onGetItemLevel: (menu) => dispatch(actions.getMenuLevel(menu))
     }
 }
 

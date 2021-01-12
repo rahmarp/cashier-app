@@ -2,11 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import TabMenu from '../../components/TabMenu/TabMenu';
 // import Nasi from '../../assets/nasi.jpeg';
-import { Button, ButtonGroup, Grid } from '@material-ui/core';
-import DetailItem from '../../components/ItemDetails/DetailItem/DetailItem';
-import ButtonAdd from '../../components/ItemDetails/ButtonAdd/ButtonAdd';
+import { Grid } from '@material-ui/core';
+import ButtonAdd from '../../components/ButtonAdd/ButtonAdd';
 import * as actions from '../../store/actions/index';
-import InputDetails from '../../components/ItemDetails/InputDetails/InputDetails';
+import DetailsMenu from '../../components/DetailsMenu/DetailsMenu';
+// import InputDetails from '../../components/ItemDetails/InputDetails/InputDetails';
+// import CheckboxMenuAdd from '../../components/ItemDetails/Checkbox/CheckboxMenuAdd';
+// import RadioButton from '../../components/ItemDetails/RadioButton/RadioButton';
 
 
 class ItemDetails extends Component {
@@ -19,12 +21,23 @@ class ItemDetails extends Component {
       show: true,
       added: false,
       note: "",
-      menuItem: ""
+      menuItem: "",
+      workDays: [],
+      addPrice: 0,
+      itemPrices: [],
+      levelPrice: 0,
+      itemLevel: ''
     }
+    this.checkboxChangeHandler = this.checkboxChangeHandler.bind(this)
   }
 
   componentDidMount = () => {
     const cart = this.props.cart
+    if (this.props.menuAdd.length > 0){
+      this.setState({
+        check: 0
+      })
+    }
     let items = {}
     for (let i in this.props.item){
       items = {
@@ -80,6 +93,45 @@ class ItemDetails extends Component {
     this.setState({ counter: this.state.counter - 1})
   }
 
+  checkboxChangeHandler = (event) => {
+    
+    let newArray = [...this.state.workDays, event.target.value];
+    let addPrice = 0
+    
+    let prices = (this.props.menuAdd).filter(obj => obj.item === event.target.value)
+    let price = ""
+    for (let i in prices){
+      price = prices[i].itemPrice
+    }
+    let itemPrice = [...this.state.itemPrices, price]
+    if (this.state.workDays.includes(event.target.value)) {
+      newArray = newArray.filter(day => day !== event.target.value);
+      itemPrice = itemPrice.filter(a => a !== price)
+      }
+    for (let i in newArray){
+      addPrice += parseInt(itemPrice[i])
+    }
+    this.setState({
+    addPrice: addPrice,
+    itemPrices: itemPrice,
+    workDays: newArray
+    });
+    console.log(itemPrice)
+  }
+
+  radioChangeHandler = (event) => {
+    let value = event.target.value
+    let price = (this.props.menuLevel).filter(obj => obj.level === value)
+    for ( let i in price){
+      this.setState({
+        levelPrice: parseInt(price[i].levelPrice)
+      })
+    }
+    this.setState({
+      itemLevel: value
+    })
+  }
+
   inputChangehandler = ( event ) => {
     this.setState({
       note: event.target.value
@@ -91,9 +143,11 @@ class ItemDetails extends Component {
     let cart = {
       "menu": this.state.menuItem.menu,
       "qty" : this.state.counter,
-      "price" : this.state.menuItem.price * this.state.counter,
-      "note" : this.state.note
+      "price" : (this.state.menuItem.price + this.state.addPrice) * this.state.counter,
+      "note" : this.state.note,
+      "item": this.state.workDays
     }
+    console.log(cart)
     this.props.onAddCart(cart)
     this.props.history.goBack() 
   }
@@ -118,43 +172,31 @@ class ItemDetails extends Component {
   }
   
     render(){
-      const disable = this.state.counter > 0
       return (
         <div>
           <Grid container spacing={0}>
-
-            <Grid item xs={12}>
               <TabMenu items={this.state.menuItem.menu}/>
-            </Grid>
 
             <Grid item xs={12}>
-              <DetailItem 
-                menu={this.props.item} />
+              <DetailsMenu
+                menu={this.props.item}
+                menuCheckbox={this.props.menuAdd}
+                checkHandler={this.checkboxChangeHandler}
+                menuRadio={this.props.menuLevel}
+                valueRadio={this.state.itemLevel}
+                radioHandler={this.radioChangeHandler}
+                details={this.inputChangehandler}
+                valueNote={this.state.note}
+                increment={this.handleIncrement}
+                decrement={this.handleDecrement}
+                counter={this.state.counter}/>
             </Grid>
-
-            <Grid item xs={12}>
-            <InputDetails 
-              details={this.inputChangehandler}
-              value={this.state.note} />
-            {/* {listItem} */}
-            </Grid>
-
-            <Grid item xs={12}>
-              <center>
-                <ButtonGroup size="large" aria-label="small outlined button group">
-                    <Button onClick={this.handleDecrement} disabled={!disable}>-</Button>
-                    <Button disabled>{this.state.counter}</Button>
-                    <Button onClick={this.handleIncrement}>+</Button>
-                </ButtonGroup>
-                </center>
-            </Grid>
-            {/* <ViewCart /> */}
             <Grid item xs={12}>
               <ButtonAdd 
                 add={this.inputCartHandler} 
                 update={this.updateCartHandler}
                 delete={this.deleteCartHandler}
-                label={this.state.menuItem.price * this.state.counter}
+                label={(this.state.menuItem.price + this.state.addPrice + this.state.levelPrice) * this.state.counter }
                 count={this.state.counter}
                 added={this.state.added}/>
             </Grid>
@@ -168,6 +210,8 @@ const mapStateToProps = state => {
   return {
     menu: state.item.menu,
     item: state.item.menuItem,
+    menuAdd: state.item.menuAdd,
+    menuLevel: state.item.menuLevel,
     cart: state.cart.cart
   }
 }

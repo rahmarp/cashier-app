@@ -6,3 +6,17 @@ export const getMenu = (menu) => {
         menu: menu
     }
 }
+
+export const getMenuAdd = (menu) => {
+    return {
+        type: actionTypes.GET_MENUADD,
+        menu: menu
+    }
+}
+
+export const getMenuLevel = (menu) => {
+    return {
+        type: actionTypes.GET_MENULEVEL,
+        menu:menu
+    }
+}

@@ -4,6 +4,7 @@ import Nasi from '../../../assets/nasi.jpeg';
 import NumberFormat from 'react-number-format';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import ConfirmDialog from '../ConfirmDialog/ConfirmDialog';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -58,7 +59,8 @@ export const Item = (props) => {
                         <Typography variant="subtitle2" className={classes.header} >{devReact[menuKey].menu}</Typography>
                         <Typography variant="caption" className={classes.caption} >{devReact[menuKey].description}</Typography>
                         <Typography variant="subtitle2" className={classes.price} >
-                            <NumberFormat value={devReact[menuKey].price} displayType={'text'} thousandSeparator={true} prefix={'Rp '} /></Typography>
+                            <NumberFormat value={devReact[menuKey].price} displayType={'text'} thousandSeparator={true} prefix={'Rp '} />
+                        </Typography>
                         </Grid>
                     </Grid>   
                     </Link>  
@@ -68,6 +70,7 @@ export const Item = (props) => {
     return (
         <div>
             {itemCategory}
+            <ConfirmDialog />
         </div>
     )
 }

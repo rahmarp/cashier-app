@@ -8,15 +8,15 @@ const useStyles = makeStyles((theme) => ({
         position: 'sticky',
         top: '0px',
         width: '100%',
-        height: '80px',
+        height: '50px',
         zIndex: '1000',
-        boxShadow: '0 4px 14px 0 rgba(0, 0, 0, 0.15);'
+        boxShadow: '0 4px 14px 0 rgba(0, 0, 0, 0.15);',
     },
     navItems: {
       overflowX: 'scroll',
       width: '100%',
       whiteSpace: 'nowrap',
-      padding: '1rem'
+      padding: '0rem'
     },
     navLogo: {
         height: '60px',
@@ -35,7 +35,8 @@ const useStyles = makeStyles((theme) => ({
         display: 'inline',
         marginRight: '2rem',
         color: '#333',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        marginTop: '5px'
     },
     active: {
         borderBottom: '1x solid #333'
@@ -45,6 +46,10 @@ const useStyles = makeStyles((theme) => ({
         borderBottom: '1x solid #333'
       },
       borderBottom: '1x solid #333',
+    },
+    close: {
+        width: '15px',        
+        marginTop: '3px'
     }
 
 
@@ -58,7 +63,9 @@ export default function TabMenu(props) {
             <div className={classes.navContent}>
             <ul className={classes.navItems}>
                 <li className={classes.navItem}>
-                    <Link to="/menu">Back</Link>
+                    <Link to="/menu">
+                        <img alt="close" className={classes.close} src="https://www.flaticon.com/svg/static/icons/svg/32/32178.svg"/>
+                    </Link>
                 </li>
                 <li className={classes.navItem}>
                   {props.items}

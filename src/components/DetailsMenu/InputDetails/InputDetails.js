@@ -1,28 +1,39 @@
-import { Grid, makeStyles, TextareaAutosize, Typography } from '@material-ui/core'
+import { FormLabel, Grid, makeStyles, TextareaAutosize } from '@material-ui/core'
 import React from 'react'
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        padding: '1rem',
+        marginBottom: '5px',
+        backgroundColor: 'white'
+    },
     input: {
-        width: '80%',
+        width: '100%',
       },
-      container: {
+
+    container: {
         width: '100%',
         paddingLeft: '1rem',
         paddingBottom: '50px',
         minHeight: "120px"
-      }
+    },
+    label: {
+        margin: '10px',
+        color: 'black'
+    }
 }))
 function InputDetails(props) {
     const classes = useStyles()
     return (
-        <div className={classes.container}>
+        <div className={classes.root}>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-                <Typography variant="h6">Add Notes</Typography>
+                <FormLabel component="legend" className={classes.label}>Add Notes</FormLabel>
                 <TextareaAutosize
                     onChange={(e) => props.details(e)} 
                     className={classes.input} 
                     value={props.value}
+                    placeholder="Special Instruction"
                     rowsMin={4} />
                 </Grid>
             </Grid>

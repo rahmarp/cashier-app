@@ -34,6 +34,39 @@ const initialState = {
             "menu": "Nasi Goreng",
             "description": "Nasi + Daging Rendang + Sayur + Sambal + Kuah + Daun Singkong + Asli Masakan Padang",
             "price": 25000,
+            "add" : [
+                {
+                    "item": "telur",
+                    "itemPrice": 5000
+                },
+                {
+                    "item": "Kacang Polong",
+                    "itemPrice": 3000
+                },
+                {
+                    "item": "Kerupuk",
+                    "itemPrice": 9000
+                },
+
+            ],
+            "level" : [
+                {
+                    "level": "Level 0",
+                    "levelPrice": 0
+                },
+                {
+                    "level": "Level 1",
+                    "levelPrice": 1000
+                },
+                {
+                    "level": "Level 2",
+                    "levelPrice": 2000
+                },
+                {
+                    "level": "Level 5",
+                    "levelPrice": 3000
+                }
+            ],
             "categoryId": 0
         },
         {
@@ -87,34 +120,76 @@ const initialState = {
         },
         {
             "id":8,
-            "menu": "Milkshake",
-            "description": "Milkshake",
+            "menu": "Paket Keluarga",
+            "description": "Isinya banyak banget gilee",
             "price": 10000,
-            "categoryId": 1
+            "categoryId": 4
             }
 ],
-    menuItem: null
+    menuItem: null,
+    menuAdd: null,
+    menuLevel: null
 }
 
 
 const getMenu = (state,action) => {
     const menu = Object.keys(state.menu)
         .filter(obj => state.menu[obj].menu === action.menu)
-        .map(obj => ({
-            "id": state.menu[obj].id,
-            "menu":state.menu[obj].menu,
-            "description": state.menu[obj].description,
-            "price": state.menu[obj].price
-        }))
+        .map(obj => (
+            state.menu[obj]
+        ))
     return updatedObject(state, {
         menuItem: menu
     })
 
 }
+const getMenuAdd = (state,action) => {
+    const menu = Object.keys(state.menu)
+        .filter(obj => state.menu[obj].menu === action.menu)
+        .map(obj => (
+            state.menu[obj]
+        ))
+    let items = {}
+    for (let i in menu){
+        if( menu[i].add !==  undefined){
+        items =  menu[i].add
+        }
+        else {
+        items = {}
+        }
+    }
+    console.log(items)
+    return updatedObject(state, {
+        menuAdd: items
+    })
+
+}
+
+const getMenuLevel = (state,action) => {
+    const menu = Object.keys(state.menu)
+        .filter(obj => state.menu[obj].menu === action.menu)
+        .map(obj => (
+            state.menu[obj]
+        ))
+    let items = {}
+    for (let i in menu){
+        if( menu[i].add !==  undefined){
+        items =  menu[i].level
+        }
+        else {
+        items = {}
+        }
+    }
+    return updatedObject(state, {
+        menuLevel: items
+    })
+}
 
 const reducer = ( state = initialState, action )=> {
     switch (action.type) {
         case actionTypes.GET_MENU : return getMenu(state, action)
+        case actionTypes.GET_MENUADD : return getMenuAdd(state, action)
+        case actionTypes.GET_MENULEVEL : return getMenuLevel(state,action)
         default:
             return state;
     }

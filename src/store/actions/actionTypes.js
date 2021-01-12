@@ -5,6 +5,8 @@ export const SET_CATEGORIES = 'SET_CATEGORIES'
 export const SET_MENU = 'SET_MENU'
 export const FETCH_CATEGORIES_FAILED = 'FETCH_CATEGORIES_FAILED'
 export const GET_MENU = 'GET_MENU'
+export const GET_MENUADD = 'GET_MENUADD'
+export const GET_MENULEVEL = 'GET_MENULEVEL'
 
 //cart
 export const ADD_CART = 'ADD_CART';
