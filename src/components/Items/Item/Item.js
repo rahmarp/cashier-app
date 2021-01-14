@@ -1,6 +1,6 @@
 import { Grid, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
-import Nasi from '../../../assets/nasi.jpeg';
+import Nasi from '../../../assets/menu.jfif';
 import NumberFormat from 'react-number-format';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -25,20 +25,32 @@ const useStyles = makeStyles((theme) => ({
         position:'absolute',
         bottom:'1rem',
         right: '0',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: 'black'
     },
     caption: {
-        fontSize: '8pt'
+        fontSize: '7pt',
+        color: '#636e72'
     },
     header: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: 'black'
     }
 }))
 
 
 export const Item = (props) => {
     const classes = useStyles();
-    const menu = useSelector(state => state.item.menu)    
+    const menu = useSelector(state => state.item.menu)
+    const cart = useSelector(state => state.cart.cart)    
+    const countCart = (menus) => {
+       let countCarts =  cart.filter(obj => obj.menu === menus)
+       let countCart = 0
+       for (let i in countCarts){
+           countCart += countCarts[i].qty
+       }
+       return countCart
+    }
     const devReact = Object.keys(menu).filter(obj => menu[obj].categoryId === (props.categories))
         .map(obj => ({
             "id": menu[obj].id,
@@ -55,11 +67,13 @@ export const Item = (props) => {
                         <Grid item xs={4}>
                         <img src={Nasi} alt={devReact[menuKey].menu} className={classes.img}/>
                         </Grid>
+                        {/* <Typography variant="subtitle2" className={classes.header} ></Typography> */}
                         <Grid item xs={7} className={classes.textContainer}>
                         <Typography variant="subtitle2" className={classes.header} >{devReact[menuKey].menu}</Typography>
                         <Typography variant="caption" className={classes.caption} >{devReact[menuKey].description}</Typography>
+                        <Typography variant="subtitle2" className={classes.header} >{countCart(devReact[menuKey].menu) === 0 ? "" : countCart(devReact[menuKey].menu) + "x " }</Typography>
                         <Typography variant="subtitle2" className={classes.price} >
-                            <NumberFormat value={devReact[menuKey].price} displayType={'text'} thousandSeparator={true} prefix={'Rp '} />
+                            <NumberFormat value={devReact[menuKey].price} displayType={'text'} thousandSeparator={true}/>
                         </Typography>
                         </Grid>
                     </Grid>   
@@ -70,7 +84,7 @@ export const Item = (props) => {
     return (
         <div>
             {itemCategory}
-            <ConfirmDialog />
+            {/* <ConfirmDialog /> */}
         </div>
     )
 }

@@ -18,6 +18,11 @@ class MenuPage extends Component {
              show: this.props.cart.length
         }
     }
+
+    componentDidMount = () => {
+        console.log(this.props.cart)
+    }
+
     
     getMenu = (menu) => {
         this.props.onGetMenu(menu)
@@ -62,7 +67,8 @@ const mapStateToProps = state => {
         table: state.user.table,
         categories: state.item.categories,
         menu: state.item.menu,
-        cart: state.cart.cart
+        cart: state.cart.cart,
+        menuItem: state.item.menuItem
     }
 }
 

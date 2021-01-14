@@ -16,11 +16,26 @@ const useStyles = makeStyles((theme) => ({
     label: {
         margin: '10px',
         color: 'black'
+    },
+    price: {
+        position: 'absolute',
+        right: 0
+    },
+    labelheader: {
+        width: '39vh'
     }
 }))
 
 function RadioButton(props) {
     const classes = useStyles()
+    const label = (menu, harga) => {
+        return (
+            <div className={classes.labelheader}>
+                <span>{menu}</span>
+                <span className={classes.price}>{harga === 0 ? "Gratis" : "+" + harga}</span>
+            </div>
+        )
+    }
     return (
         <div className={classes.root}>
             <FormControl component="fieldset">
@@ -30,7 +45,7 @@ function RadioButton(props) {
                     return(
                         <FormControlLabel key={obj.level} value={obj.level}
                         control={<Radio/> } 
-                        label={obj.level}></FormControlLabel>
+                        label={label(obj.level,obj.levelPrice)}></FormControlLabel>
                     )
                 })}
             </RadioGroup>

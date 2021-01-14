@@ -21,6 +21,17 @@ const useStyles = makeStyles((theme) => ({
 
 function DetailsMenu(props) {
     const classes = useStyles();
+    let menu = ""
+    for (let i in props.menu){
+        menu = props.menu[i].menu
+    }
+    let length = 0
+    if(props.menuRadio === undefined || props.menuRadio === {}){
+        length = 0
+    }
+    else{
+        length = props.menuRadio.length
+    }
     return (
         <div className={classes.root}>
             <Grid item xs={12}>
@@ -29,17 +40,20 @@ function DetailsMenu(props) {
                 </Paper>
             </Grid>
 
-            {(props.menuCheckbox).length > 0 ? 
+            {props.menuCheckbox.length > 0 ? 
             <Grid item xs={12}>
                 <Paper>
                   <CheckboxMenuAdd 
                     menuAdd={props.menuCheckbox}
-                    checkHandler={props.checkHandler}/>
+                    checkHandler={props.checkHandler}
+                    menu={menu}
+                    checkboxHandler={props.checkboxCheck}
+                    />
                 </Paper>
             </Grid>
             : null
             }
-
+            {length !== 0 && length !== undefined ?
             <Grid item xs={12}>
                 <Paper>
                     <RadioButton 
@@ -48,6 +62,8 @@ function DetailsMenu(props) {
                         value={props.valueRadio}/>
                 </Paper>
             </Grid>
+            : null
+            }
 
             <Grid item xs={12}>
                 <Paper>

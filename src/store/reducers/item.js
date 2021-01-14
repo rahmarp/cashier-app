@@ -27,11 +27,12 @@ const initialState = {
             "id":5,
             "title": "On The Go"
         }
+
     ],
     menu: [
         {
             "id":0,
-            "menu": "Nasi Goreng",
+            "menu": "Smiley Oreo Lego Ululu",
             "description": "Nasi + Daging Rendang + Sayur + Sambal + Kuah + Daun Singkong + Asli Masakan Padang",
             "price": 25000,
             "add" : [
@@ -81,6 +82,21 @@ const initialState = {
             "menu": "Mie Goreng",
             "description": "Mie Goreng",
             "price": 20000,
+            "add" : [
+                {
+                    "item": "Sayur",
+                    "itemPrice": 5000
+                },
+                {
+                    "item": "Kacang Polong",
+                    "itemPrice": 3000
+                },
+                {
+                    "item": "Kerupuk",
+                    "itemPrice": 9000
+                },
+
+            ],
             "categoryId": 0
         },
         {
@@ -88,6 +104,24 @@ const initialState = {
             "menu": "Mie Kuah",
             "description": "Mie Kuah",
             "price": 10000,
+            "level" : [
+                {
+                    "level": "Level 0",
+                    "levelPrice": 0
+                },
+                {
+                    "level": "Level 1",
+                    "levelPrice": 1000
+                },
+                {
+                    "level": "Level 2",
+                    "levelPrice": 2000
+                },
+                {
+                    "level": "Level 5",
+                    "levelPrice": 3000
+                }
+            ],
             "categoryId": 0
         },
         {
@@ -138,9 +172,11 @@ const getMenu = (state,action) => {
         .map(obj => (
             state.menu[obj]
         ))
+    console.log(menu)
     return updatedObject(state, {
         menuItem: menu
     })
+    
 
 }
 const getMenuAdd = (state,action) => {
@@ -158,7 +194,6 @@ const getMenuAdd = (state,action) => {
         items = {}
         }
     }
-    console.log(items)
     return updatedObject(state, {
         menuAdd: items
     })
@@ -173,13 +208,14 @@ const getMenuLevel = (state,action) => {
         ))
     let items = {}
     for (let i in menu){
-        if( menu[i].add !==  undefined){
+        if( menu[i].level !==  undefined){
         items =  menu[i].level
         }
         else {
         items = {}
         }
     }
+    console.log(items)
     return updatedObject(state, {
         menuLevel: items
     })

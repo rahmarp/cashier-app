@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     imgContainer: {
       width: '100%',
       // backgroundImage: 'url(' + require('../../../assets/nasi.jpeg')+ ')',
-      backgroundImage: `url('${'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8Zm9vZHxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60'} ')`,
+      backgroundImage: `url('${'https://images.unsplash.com/photo-1568241723642-e519f7829da9?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80'} ')`,
       backgroundPosition: 'center',
       backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat',

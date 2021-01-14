@@ -16,28 +16,27 @@ class ItemDetails extends Component {
     super(props)
   
     this.state = {
-      id: this.props.match.params.id,
+      //qty
       counter: 1,
-      show: true,
       added: false,
       note: "",
+      //checkbox 
       menuItem: "",
       workDays: [],
       addPrice: 0,
-      itemPrices: [],
+      optionalItem: {},
+      //radio
       levelPrice: 0,
-      itemLevel: ''
+      itemLevel: '',
     }
     this.checkboxChangeHandler = this.checkboxChangeHandler.bind(this)
   }
 
   componentDidMount = () => {
+    console.log(this.props.cart)
     const cart = this.props.cart
-    if (this.props.menuAdd.length > 0){
-      this.setState({
-        check: 0
-      })
-    }
+
+    //remove object keys 
     let items = {}
     for (let i in this.props.item){
       items = {
@@ -45,8 +44,61 @@ class ItemDetails extends Component {
         "menu" : this.props.item[i].menu,
         "description" : this.props.item[i].description,
         "price" : this.props.item[i].price,
+        "item" : this.props.item[i].add,
+        "level" : this.props.item[i].level
       }
     }
+
+    //get cart
+    let countCarts =  this.props.cart.filter(obj => obj.menu === items.menu)
+    let countCart = []
+    let levelItem = ""
+
+    for (let i in countCarts){
+      countCart = countCarts[i].item
+      levelItem = countCarts[i].level
+    }
+
+    //get menuItem
+    let updateMenuItem = {}
+    let countItemPrice = 0
+    if((this.props.menuAdd).length !== undefined){
+      updateMenuItem = (this.props.menuAdd).map(i => {
+        return {
+          item: i.item,
+          itemPrice: i.itemPrice,
+          check: countCart.includes(i.item)
+        }
+      } )      
+      //show price of menuItem
+      let itemTrue = updateMenuItem.filter(obj => obj.check === true)
+      for (let i in itemTrue){
+        countItemPrice += parseInt(itemTrue[i].itemPrice)
+      }
+    }
+
+    //update menuLevel
+    let updateMenuLevel = {}
+    let countLevelPrice = 0
+    if((this.props.menuLevel).length !== undefined){
+      updateMenuLevel = (this.props.menuLevel).map(i => {
+        return {
+          level: i.level,
+          levelPrice: i.levelPrice,
+          check: levelItem === i.level
+        }
+      } )      
+      //show price of menuItem
+      let itemTrue = updateMenuLevel.filter(obj => obj.check === true)
+      for (let i in itemTrue){
+        countLevelPrice += parseInt(itemTrue[i].levelPrice)
+      }
+    }
+   
+
+    
+
+    console.log(countItemPrice)
     const qty = Object.keys(cart)
       .filter(obj => cart[obj].menu === items.menu)
       .map(obj => {
@@ -54,13 +106,12 @@ class ItemDetails extends Component {
           cart[obj].qty
         )   
     })
-    const note = Object.keys(cart)
-    .filter(obj => cart[obj].menu === items.menu)
-    .map(obj => {
-      return (          
-        cart[obj].note
-      )   
-    })
+    const notes = cart.filter(obj => obj.menu === items.menu)
+    let note = ""
+    for (let i in notes){
+      note = notes[i].note
+    }
+    console.log(notes)
     const qtyInt = parseInt(qty)
     const menu = Object.keys(cart)
       .map(obj => {
@@ -78,10 +129,14 @@ class ItemDetails extends Component {
       })
     }
     this.setState({
-      menuItem: items
+      menuItem: items,
+      optionalItem: updateMenuItem,
+      workDays: countCart,
+      itemLevel: levelItem,
+      levelPrice: countLevelPrice,
+      addPrice: countItemPrice
     })
   }
-
 
   handleIncrement =() => {
     this.setState({ 
@@ -94,29 +149,48 @@ class ItemDetails extends Component {
   }
 
   checkboxChangeHandler = (event) => {
-    
-    let newArray = [...this.state.workDays, event.target.value];
-    let addPrice = 0
-    
-    let prices = (this.props.menuAdd).filter(obj => obj.item === event.target.value)
-    let price = ""
-    for (let i in prices){
-      price = prices[i].itemPrice
+    let st = event.target.checked
+    let newArray = []
+    let priceArray = []
+    let updateMenuItem = {}
+    let addprice = this.state.addPrice
+    let price = 0
+    let itemTrue = this.props.menuAdd.filter(obj => obj.item === event.target.value)
+    for (let i in itemTrue){
+      price = itemTrue[i].itemPrice
+    } 
+    if(st){
+      newArray = [...this.state.workDays, event.target.value];
+      updateMenuItem = (this.state.optionalItem).map(i => {
+        return {
+          "item": i.item,
+          "itemPrice": i.itemPrice,
+          "check": newArray.includes(i.item)
+        }
+      })                
+      addprice += price
     }
-    let itemPrice = [...this.state.itemPrices, price]
-    if (this.state.workDays.includes(event.target.value)) {
-      newArray = newArray.filter(day => day !== event.target.value);
-      itemPrice = itemPrice.filter(a => a !== price)
-      }
-    for (let i in newArray){
-      addPrice += parseInt(itemPrice[i])
+    else{
+      newArray = this.state.workDays.filter(e => e !== event.target.value)
+      updateMenuItem = (this.state.optionalItem).map(i => {
+        return {
+          "item": i.item,
+          "itemPrice": i.itemPrice,
+          "check": newArray.includes(i.item)
+        }
+      })
+      addprice -= price
+
     }
+
     this.setState({
-    addPrice: addPrice,
-    itemPrices: itemPrice,
-    workDays: newArray
+      addPrice: addprice,
+      itemPrices: priceArray,
+      workDays: newArray,
+      optionalItem: updateMenuItem
     });
-    console.log(itemPrice)
+    console.log(addprice)
+    
   }
 
   radioChangeHandler = (event) => {
@@ -143,11 +217,12 @@ class ItemDetails extends Component {
     let cart = {
       "menu": this.state.menuItem.menu,
       "qty" : this.state.counter,
-      "price" : (this.state.menuItem.price + this.state.addPrice) * this.state.counter,
+      "price" : (this.state.menuItem.price + this.state.addPrice + this.state.levelPrice) * this.state.counter,
       "note" : this.state.note,
-      "item": this.state.workDays
+      "item": this.state.workDays,
+      "level": this.state.itemLevel
     }
-    console.log(cart)
+    console.log(this.state.note)
     this.props.onAddCart(cart)
     this.props.history.goBack() 
   }
@@ -157,9 +232,12 @@ class ItemDetails extends Component {
     let cart = {
       "menu": this.state.menuItem.menu,
       "qty" : this.state.counter,
-      "price" : this.state.menuItem.price * this.state.counter,
-      "note" : this.state.note
+      "price" : (this.state.menuItem.price + this.state.addPrice + this.state.levelPrice)  * this.state.counter,
+      "note" : this.state.note,
+      "item": this.state.workDays,
+      "level": this.state.itemLevel
     }
+    console.log(this.state.note)
     this.props.onUpdateCart(cart)
     this.props.history.goBack() 
   }
@@ -172,6 +250,7 @@ class ItemDetails extends Component {
   }
   
     render(){
+      // console.log(this.props.menuAdd)
       return (
         <div>
           <Grid container spacing={0}>
@@ -180,8 +259,9 @@ class ItemDetails extends Component {
             <Grid item xs={12}>
               <DetailsMenu
                 menu={this.props.item}
-                menuCheckbox={this.props.menuAdd}
+                menuCheckbox={this.state.optionalItem}
                 checkHandler={this.checkboxChangeHandler}
+                checkboxCheck={this.checkboxCheck}
                 menuRadio={this.props.menuLevel}
                 valueRadio={this.state.itemLevel}
                 radioHandler={this.radioChangeHandler}
@@ -196,6 +276,8 @@ class ItemDetails extends Component {
                 add={this.inputCartHandler} 
                 update={this.updateCartHandler}
                 delete={this.deleteCartHandler}
+                menuRadio={this.props.menuLevel}
+                disable={this.state.itemLevel}
                 label={(this.state.menuItem.price + this.state.addPrice + this.state.levelPrice) * this.state.counter }
                 count={this.state.counter}
                 added={this.state.added}/>

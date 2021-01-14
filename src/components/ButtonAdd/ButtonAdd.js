@@ -30,6 +30,15 @@ const useStyles = makeStyles((theme) => ({
 
 function ButtonAdd(props) {
     const classes = useStyles();
+    let length = 0
+    if(props.menuRadio === undefined){
+        length = 0
+    }
+    else{
+      length = props.menuRadio.length
+    }
+
+    const disable = props.disable === "" && length > 0
     return (
         <div className={classes.root}>
             <Grid item xs={12} className={classes.buttonContainer}>
@@ -37,11 +46,11 @@ function ButtonAdd(props) {
             props.count > 0 ? 
             [
               (props.added ? 
-              <Button key={props.label} onClick={props.update} variant="contained" color="primary" className={classes.button}>
+              <Button key={props.label} onClick={props.update} disabled={disable} variant="contained" color="primary" className={classes.button}>
               update {'\u00A0'} <NumberFormat value={props.label} displayType={'text'} thousandSeparator={true} prefix={'Rp '} /> 
               </Button> 
               :
-              <Button key={props.label} onClick={props.add} variant="contained" color="primary" className={classes.button}>
+              <Button key={props.label} onClick={props.add} disabled={disable} variant="contained" color="primary" className={classes.button}>
               add {'\u00A0'} <NumberFormat value={props.label} displayType={'text'} thousandSeparator={true} prefix={'Rp '} /> 
               </Button>  )
             ]
