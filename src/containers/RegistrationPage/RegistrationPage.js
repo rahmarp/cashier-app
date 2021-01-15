@@ -10,18 +10,19 @@ class RegistrationPage extends Component {
           name: '',
           table: 8,
           errorName: ''
-          
          }
     
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
       }
+
       handleChange = (event, field) => {
           event.preventDefault();
           this.setState({
             [field]: event.target.value
           })
       }
+
       validationForm = (errors) => {
         let valid = false;
         if (errors){
@@ -31,7 +32,8 @@ class RegistrationPage extends Component {
             valid=false
         }
         return valid
-    }
+      }
+      
       handleSubmit = ( event ) => {
           event.preventDefault();
           let user = this.state.name;
@@ -63,10 +65,11 @@ class RegistrationPage extends Component {
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <RegistrationForm 
-                onChanged={this.handleChange}
-                onSubmited={this.handleSubmit}
-                error={this.state.errorName}
-                tableValue={this.state.table}/>
+                  onChanged={this.handleChange}
+                  onSubmited={this.handleSubmit}
+                  error={this.state.errorName}
+                  tableValue={this.state.table}
+                />
             </Container>
         )
     }

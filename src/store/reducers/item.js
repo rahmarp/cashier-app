@@ -37,14 +37,17 @@ const initialState = {
             "price": 25000,
             "add" : [
                 {
+                    "id": 0,
                     "item": "telur",
                     "itemPrice": 5000
                 },
                 {
+                    "id": 1,
                     "item": "Kacang Polong",
                     "itemPrice": 3000
                 },
                 {
+                    "id": 2,
                     "item": "Kerupuk",
                     "itemPrice": 9000
                 },
@@ -52,18 +55,22 @@ const initialState = {
             ],
             "level" : [
                 {
+                    "id": 0,
                     "level": "Level 0",
                     "levelPrice": 0
                 },
                 {
+                    "id": 1,
                     "level": "Level 1",
                     "levelPrice": 1000
                 },
                 {
+                    "id": 2,
                     "level": "Level 2",
                     "levelPrice": 2000
                 },
                 {
+                    "id": 3,
                     "level": "Level 5",
                     "levelPrice": 3000
                 }
@@ -84,14 +91,17 @@ const initialState = {
             "price": 20000,
             "add" : [
                 {
+                    "id": 0,
                     "item": "Sayur",
                     "itemPrice": 5000
                 },
                 {
+                    "id": 1,
                     "item": "Kacang Polong",
                     "itemPrice": 3000
                 },
                 {
+                    "id": 2,
                     "item": "Kerupuk",
                     "itemPrice": 9000
                 },
@@ -106,18 +116,22 @@ const initialState = {
             "price": 10000,
             "level" : [
                 {
+                    "id": 0,
                     "level": "Level 0",
                     "levelPrice": 0
                 },
                 {
+                    "id": 1,
                     "level": "Level 1",
                     "levelPrice": 1000
                 },
                 {
+                    "id": 2,
                     "level": "Level 2",
                     "levelPrice": 2000
                 },
                 {
+                    "id": 3,
                     "level": "Level 5",
                     "levelPrice": 3000
                 }
@@ -127,14 +141,14 @@ const initialState = {
         {
             "id":4,
             "menu": "Teh",
-            "description": "",
+            // "description": "",
             "price": 5000,
             "categoryId": 1
         },
         {
             "id":5,
             "menu": "Milkshake",
-            "description": "Milkshake",
+            // "description": "Milkshake",
             "price": 10000,
             "categoryId": 1
         },
@@ -168,11 +182,10 @@ const initialState = {
 
 const getMenu = (state,action) => {
     const menu = Object.keys(state.menu)
-        .filter(obj => state.menu[obj].menu === action.menu)
+        .filter(obj => state.menu[obj].id === action.menu)
         .map(obj => (
             state.menu[obj]
         ))
-    console.log(menu)
     return updatedObject(state, {
         menuItem: menu
     })
@@ -181,7 +194,7 @@ const getMenu = (state,action) => {
 }
 const getMenuAdd = (state,action) => {
     const menu = Object.keys(state.menu)
-        .filter(obj => state.menu[obj].menu === action.menu)
+        .filter(obj => state.menu[obj].id === action.menu)
         .map(obj => (
             state.menu[obj]
         ))
@@ -202,7 +215,7 @@ const getMenuAdd = (state,action) => {
 
 const getMenuLevel = (state,action) => {
     const menu = Object.keys(state.menu)
-        .filter(obj => state.menu[obj].menu === action.menu)
+        .filter(obj => state.menu[obj].id === action.menu)
         .map(obj => (
             state.menu[obj]
         ))
@@ -215,7 +228,6 @@ const getMenuLevel = (state,action) => {
         items = {}
         }
     }
-    console.log(items)
     return updatedObject(state, {
         menuLevel: items
     })

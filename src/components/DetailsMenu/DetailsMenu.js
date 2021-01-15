@@ -47,7 +47,6 @@ function DetailsMenu(props) {
                     menuAdd={props.menuCheckbox}
                     checkHandler={props.checkHandler}
                     menu={menu}
-                    checkboxHandler={props.checkboxCheck}
                     />
                 </Paper>
             </Grid>

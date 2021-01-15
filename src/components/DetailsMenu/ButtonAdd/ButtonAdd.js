@@ -37,7 +37,6 @@ function ButtonAdd(props) {
     else{
       length = props.menuRadio.length
     }
-
     const disable = props.disable === "" && length > 0
     return (
         <div className={classes.root}>

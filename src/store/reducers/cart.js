@@ -3,32 +3,39 @@ import { updatedObject } from '../../utility'
 
 const initialState = {
     cart: [],
+    counter: 0,
 }
 
 const addCart = (state, action) => {
-    let menu = {}
-    for (let i =0; i< action.menu.length; i++){
-        menu[i] = {
-            menu: action.menu[i].menu,
-            price: action.menu[i].price,
-            qty: action.menu[i].qty
-        }
+    let itemID = (action.menu.itemIds).join('-')
+
+    let currentCart = {
+        id: state.counter,
+        key: action.menu.menuId + '-' + itemID + '-' + action.menu.levelId,
+        menuId: action.menu.menuId,
+        qty: action.menu.qty,
+        price: action.menu.price,
+        note: action.menu.note,
+        itemIds: action.menu.itemIds,
+        levelId: action.menu.levelId
+
     }
     if (state.cart === {}){
         return updatedObject( state, {
-            cart: action.menu
+            cart: currentCart,
     })
     }
     else{
         return updatedObject( state, {
-            cart: [...state.cart, action.menu]
+            cart: [...state.cart, currentCart],
+            counter: state.counter + 1
     })
     }
     
 }
 
 const updateCart = (state, action) => { 
-    const index = state.cart.findIndex(cart => cart.menu === action.menu.menu)
+    const index = state.cart.findIndex(cart => cart.key === action.menu.menu)
     const newArray = [...state.cart]
     newArray[index] = action.menu
     return updatedObject( state, {

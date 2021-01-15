@@ -1,6 +1,5 @@
 import { makeStyles } from '@material-ui/core'
 import React from 'react'
-import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     nav: {
@@ -63,9 +62,9 @@ export default function TabMenu(props) {
             <div className={classes.navContent}>
             <ul className={classes.navItems}>
                 <li className={classes.navItem}>
-                    <Link to="/menu">
+                    <div onClick={props.back}>
                         <img alt="close" className={classes.close} src="https://www.flaticon.com/svg/static/icons/svg/32/32178.svg"/>
-                    </Link>
+                    </div>
                 </li>
                 <li className={classes.navItem}>
                   {props.items}

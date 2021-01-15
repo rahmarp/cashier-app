@@ -1,15 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Route, Switch } from 'react-router';
-import ButtonCart from '../../components/Cart/ButtonCart/ButtonCart';
+import ButtonCart from '../../components/MenuPage/ButtonCart/ButtonCart';
 import Items from '../../components/Items/Items';
-import NavigationMenu from '../../components/NavigationMenu/NavigationMenu'
-import asyncComponent from '../../hoc/asyncComponent/asyncComponent';
+import NavigationMenu from '../../components/MenuPage/NavigationMenu/NavigationMenu';
 import * as actions from '../../store/actions/index';
 
-const asyncMenuDetails = asyncComponent(() => {
-    return import('../ItemDetails/ItemDetails')
-  })
 class MenuPage extends Component {
     constructor(props) {
         super(props)
@@ -20,16 +15,26 @@ class MenuPage extends Component {
     }
 
     componentDidMount = () => {
+        //count all qty of carts
+        let count = 0
+        for (let i in this.props.cart){
+            count += this.props.cart[i].qty
+        }
+        this.setState({
+            show: count
+        })
         console.log(this.props.cart)
     }
 
     
     getMenu = (menu) => {
+        //get menu by id
         this.props.onGetMenu(menu)
         this.props.onGetItemAdd(menu)
         this.props.onGetItemLevel(menu)
     }
     getSubTotal(cart) {
+        //count all prices of carts
         let subTotal = 0
         const total = Object.keys(cart).map(obj => {
             return (
@@ -46,16 +51,15 @@ class MenuPage extends Component {
             <div>
                 <NavigationMenu
                     items={this.props.categories}/>
-                { this.state.show > 0 ? <ButtonCart 
-                subTotal={this.getSubTotal(this.props.cart)}
-                item={this.state.show} /> : null}
+                { this.state.show > 0 ? 
+                    <ButtonCart 
+                        subTotal={this.getSubTotal(this.props.cart)}
+                        item={this.state.show} /> 
+                    : 
+                    null}
                 <Items
                     items={this.props.categories}
                     item={this.getMenu} />
-                <Switch>
-                {/* <Route path="/menu" component={MenuPage} /> */}
-                <Route path="/menu/:id" exact component={asyncMenuDetails} />
-                </Switch>
             </div>
         )
     }
@@ -63,12 +67,8 @@ class MenuPage extends Component {
 
 const mapStateToProps = state => {
     return {
-        user: state.user.users,
-        table: state.user.table,
         categories: state.item.categories,
-        menu: state.item.menu,
         cart: state.cart.cart,
-        menuItem: state.item.menuItem
     }
 }
 

@@ -43,7 +43,7 @@ function RadioButton(props) {
             <RadioGroup aria-label="gender" name="gender1" value={props.value} onChange={(e) => props.radioHandler(e)} >
                 {(props.menuLevel).map(obj => {
                     return(
-                        <FormControlLabel key={obj.level} value={obj.level}
+                        <FormControlLabel key={obj.level} value={obj.id}
                         control={<Radio/> } 
                         label={label(obj.level,obj.levelPrice)}></FormControlLabel>
                     )

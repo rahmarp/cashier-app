@@ -31,50 +31,43 @@ export default function RegistrationForm(props) {
     return (
         <div>
             <div className={classes.paper}>
-                    {/* <Avatar className={classes.avatar}> */}
-                    {/* <LockOutlinedIcon /> */}
-                    {/* </Avatar> */}
-                    <Typography component="h1" variant="h5">
+                <Typography component="h1" variant="h5">
                     Registration
-                    </Typography>
-                    <form className={classes.form}>
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="outlined-required"
-                        label="Your Name"
-                        autoFocus
-                        name="name"
-                        onChange={(event) => props.onChanged(event,"name")}
-                    />
-                    { props.error.length > 0 ? <span className={classes.error}>{props.error}</span> : ''}
-                    <TextField
-                        id="outlined-read-only-input"
-                        margin="normal"
-                        fullWidth
-                        label="Table"
-                        type="number"
-                        // InputProps={{
-                        //   readOnly: true,
-                        // }}
-                        variant="outlined"
-                        name="table"
-                        value={props.tableValue}
-                    />
-                    <Button
-                        // type="submit"
-                        onClick={props.onSubmited}
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                    >
-                        Sign In
-                    </Button>
-                    </form>
-                </div>
+                </Typography>
+                <form className={classes.form}>
+                <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="outlined-required"
+                    label="Your Name"
+                    autoFocus
+                    name="name"
+                    onChange={(event) => props.onChanged(event,"name")}
+                />
+                { props.error.length > 0 ? <span className={classes.error}>{props.error}</span> : ''}
+                <TextField
+                    id="outlined-read-only-input"
+                    margin="normal"
+                    fullWidth
+                    label="Table"
+                    type="number"
+                    variant="outlined"
+                    name="table"
+                    value={props.tableValue}
+                />
+                <Button
+                    onClick={props.onSubmited}
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                >
+                    Sign In
+                </Button>
+                </form>
+            </div>
         </div>
     )
 }

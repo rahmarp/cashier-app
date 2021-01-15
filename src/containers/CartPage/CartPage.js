@@ -12,7 +12,7 @@ class CartPage extends Component {
     render() {
         return (
             <div>
-                <TabMenu items="Cart"/>
+                <TabMenu items="Cart"  back={() => this.props.history.goBack()}/>
                 <User 
                     user={this.props.user}
                     table={this.props.table} />

@@ -1,6 +1,5 @@
 import { Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, makeStyles } from '@material-ui/core'
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import React from 'react'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,18 +28,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function CheckboxMenuAdd(props) {
-    const classes = useStyles()
-    const cart = useSelector(state => state.cart.cart)  
-    let countCarts =  cart.filter(obj => obj.menu === props.menu)
-    let countCart = []
-    for (let i in countCarts){
-        countCart = countCarts[i].item
-    }
-    let check = false
-    const checked = (item) => {
-       check = countCart.includes(item)
-       return check       
-    }  
+    const classes = useStyles() 
     const label = (menu, harga) => {
         return (
             <div className={classes.labelheader}>
@@ -53,7 +41,7 @@ function CheckboxMenuAdd(props) {
         .map(obj => {
             return (
                 <FormControlLabel key={obj.item}
-                control={<Checkbox name={obj.item} value={obj.item} checked={obj.check} onChange={(e) => props.checkHandler(e)}/>}
+                control={<Checkbox name={obj.item} value={obj.id} checked={obj.check} onChange={(e) => props.checkHandler(e)}/>}
                 label={label(obj.item,obj.itemPrice)}
             />
             )
