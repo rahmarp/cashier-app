@@ -1,6 +1,5 @@
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, makeStyles, Slide, Typography, Button} from '@material-ui/core';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Grid, makeStyles, Slide, Typography, Button} from '@material-ui/core';
 import React from 'react';
-import Nasi from '../../../assets/menu.jfif';
 import NumberFormat from 'react-number-format';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -37,18 +36,12 @@ const useStyles = makeStyles((theme) => ({
     },
     dialogHeader: {
         fontSize: '10pt',
-        paddingRight: '2rem',
         fontWeight: 'bold',
-        position: 'absolute',
-        left: '1rem',
-        top: '20px'
+        paddingRight: '2rem'
     },
     dialogPrice: {
         fontSize: '10pt',
         fontWeight: 'bold',
-        position: 'absolute',
-        right: '1rem',
-        top: '20px'
     },
     menuOptional: {
         fontSize: '10pt',
@@ -105,7 +98,6 @@ export const Item = (props) => {
     const clickShow = (menus) => {
         let countCarts =  cart.filter(obj => obj.menuId === menus)
         let i = countCarts.length > 0
-        console.log(i)
         return i
     }
 
@@ -125,6 +117,7 @@ export const Item = (props) => {
             "id": menu[obj].id,
             "menu":menu[obj].menu,
             "description": menu[obj].description,
+            "image": menu[obj].image,
             "price": menu[obj].price
         }))
 
@@ -143,7 +136,6 @@ export const Item = (props) => {
                     optionalItem.push(menus[i].level[k].level)
             }
         }
-        console.log(optionalItem)
         return optionalItem.join(", ")
     }
     
@@ -151,15 +143,23 @@ export const Item = (props) => {
         const cartI = cart.filter(obj => obj.menuId === menus)
         const cartII = cartI.map(menuKey => {
             return(
-                <div key={menuKey.id} id={menuKey.id} className={classes.items}>
-                    {/* <hr className={classes.line}/> */}
+                <div key={menuKey.id} id={menuKey.id} className={classes.items} >
+                    <Link to={`/menu/${menuKey.menuId}`}>
+                    <Grid container spacing={3} onClick={() => props.getItem(menuKey.menuId,clickShow(menuKey.menuId),menuKey.itemIds,menuKey.levelId,menuKey.qty, menuKey.note)}>
+                    <Grid item xs={1}>
                     <span className={classes.menuOptional}>{menuKey.qty}x</span>
+                    </Grid>
+                    <Grid item xs={8}>
                     <span className={classes.menuOptional}>{getItem(menuId, menuKey.itemIds, menuKey.levelId)}</span>
+                    </Grid>
+                    <Grid item xs={3}>
                     <span className={classes.priceOptional}>{menuKey.price}</span>
+                    </Grid>
+                    </Grid>
+                    </Link>
                 </div>
             )
         })
-        console.log(cartI)
         return cartII
     }
     
@@ -173,45 +173,65 @@ export const Item = (props) => {
                 </DialogTitle>
 
                 <DialogContent>
+                
                 {cartItem(menuKey.id)}
                 </DialogContent>
+                <DialogActions>
+                <Link to={`/menu/${menuKey.id}`}>
+                <Button className={classes.buttonConfirm} variant="contained" 
+                    onClick={() => props.getItem(menuKey.id,false,null,null)} color="primary">
+                    Make Another
+                </Button>
+                </Link>
+                </DialogActions>
                 </div>
             )
         })
+
+    const getQty = (menus) =>{
+        let countCarts =  cart.filter(obj => obj.menuId === menus) 
+        let countCart = 0
+        for (let i in countCarts){
+           countCart = countCarts[i].qty
+        }
+        console.log("get qty")
+        console.log(countCart)
+       return countCart
+    } 
+
+    const getNote = (menus) =>{
+        let countCarts =  cart.filter(obj => obj.menuId === menus) 
+        let countCart = 0
+        for (let i in countCarts){
+           countCart = countCarts[i].note
+        }
+        console.log("get Note")
+        console.log(countCart)
+       return countCart
+    } 
+    
     
     const itemCategory = Object.keys(devReact)
         .map( (menuKey, index) => {
             return (
+                // console.log(devReact[menuKey].image)
                 <div key={devReact[menuKey].id} id={devReact[menuKey].id} className={classes.root}>
                     {
+                    // new order or make another
                     clickShow(devReact[menuKey].id) ? 
                     [
                        (
+                           //show confirm dialog if has item optional
                            hasMenuItem(devReact[menuKey].id) ? 
                            <div key={devReact[menuKey].id} id={devReact[menuKey].id} className={classes.root}> 
-                        <Grid container spacing={3} onClick={() => {
-                            handleClickOpen();
-                            handleMenuId(devReact[menuKey].id);
-                        }}>
-                        <Grid item xs={4}>
-                        <img src={Nasi} alt={devReact[menuKey].menu} className={classes.img}/>
-                        </Grid>
-                        <Grid item xs={7} className={classes.textContainer}>
-                        <Typography variant="subtitle2" className={classes.header} >{devReact[menuKey].menu}</Typography>
-                        <Typography variant="caption" className={classes.caption} >{devReact[menuKey].description}</Typography>
-                        <Typography variant="subtitle2" className={classes.header} >{countCart(devReact[menuKey].id) === 0 ? "" : countCart(devReact[menuKey].id) + "x " }</Typography>
-                        <Typography variant="subtitle2" className={classes.price} >
-                            <NumberFormat value={devReact[menuKey].price} displayType={'text'} thousandSeparator={true}/>
-                        </Typography>
-                        </Grid>
-                        </Grid> 
-                        </div>
-                        : 
-                        <Link to={`/menu/${devReact[menuKey].id}`}>
-                        <Grid container spacing={3} onClick={() => props.getItem(devReact[menuKey].id)}>
+                            <Grid container spacing={3} onClick={() => {
+                                handleClickOpen();
+                                handleMenuId(devReact[menuKey].id);
+                            }}>
                             <Grid item xs={4}>
-                            <img src={Nasi} alt={devReact[menuKey].menu} className={classes.img}/>
+                            <img src={devReact[menuKey].image} alt={devReact[menuKey].menu} className={classes.img}/>
                             </Grid>
+                            
                             <Grid item xs={7} className={classes.textContainer}>
                             <Typography variant="subtitle2" className={classes.header} >{devReact[menuKey].menu}</Typography>
                             <Typography variant="caption" className={classes.caption} >{devReact[menuKey].description}</Typography>
@@ -220,15 +240,34 @@ export const Item = (props) => {
                                 <NumberFormat value={devReact[menuKey].price} displayType={'text'} thousandSeparator={true}/>
                             </Typography>
                             </Grid>
-                        </Grid>   
-                        </Link>
+                            </Grid> 
+                            </div>
+                        : 
+                            <div key={devReact[menuKey].id} id={devReact[menuKey].id} className={classes.root}> 
+                            <Link to={`/menu/${devReact[menuKey].id}`}>
+                            <Grid container spacing={3} onClick={() => props.getItem(devReact[menuKey].id,clickShow(devReact[menuKey].id),null,null,getQty(devReact[menuKey].id), getNote(devReact[menuKey].id))}>
+                                <Grid item xs={4}>
+                                <img src={devReact[menuKey].image} alt={devReact[menuKey].menu} className={classes.img}/>
+                                </Grid>
+                                <Grid item xs={7} className={classes.textContainer}>
+                                <Typography variant="subtitle2" className={classes.header} >{devReact[menuKey].menu}</Typography>
+                                <Typography variant="caption" className={classes.caption} >{devReact[menuKey].description}</Typography>
+                                <Typography variant="subtitle2" className={classes.header} >{countCart(devReact[menuKey].id) === 0 ? "" : countCart(devReact[menuKey].id) + "x " }</Typography>
+                                <Typography variant="subtitle2" className={classes.price} >
+                                    <NumberFormat value={devReact[menuKey].price} displayType={'text'} thousandSeparator={true}/>
+                                </Typography>
+                                </Grid>
+                            </Grid>   
+                            </Link>
+                            </div>
                         ) 
                     ]
                       : 
+                      <div key={devReact[menuKey].id} id={devReact[menuKey].id} className={classes.root}> 
                      <Link to={`/menu/${devReact[menuKey].id}`}>
-                      <Grid container spacing={3} onClick={() => props.getItem(devReact[menuKey].id)}>
+                      <Grid container spacing={3} onClick={() => props.getItem(devReact[menuKey].id,clickShow(devReact[menuKey].id),null,null)}>
                           <Grid item xs={4}>
-                          <img src={Nasi} alt={devReact[menuKey].menu} className={classes.img}/>
+                          <img src={devReact[menuKey].image} alt={devReact[menuKey].menu} className={classes.img}/>
                           </Grid>
                           <Grid item xs={7} className={classes.textContainer}>
                           <Typography variant="subtitle2" className={classes.header} >{devReact[menuKey].menu}</Typography>
@@ -240,6 +279,7 @@ export const Item = (props) => {
                           </Grid>
                       </Grid>   
                       </Link>
+                      </div>
                       }
                 </div>
             )
@@ -254,14 +294,10 @@ export const Item = (props) => {
             onClose={handleClose}
             aria-labelledby="alert-dialog-slide-title"
             aria-describedby="alert-dialog-slide-description"
-        >
+            >
             
             {confirmDialog}
-            <DialogActions>
-            <Button className={classes.buttonConfirm} variant="contained" onClick={handleClose} color="primary">
-                Make Another
-            </Button>
-            </DialogActions>
+            
         </Dialog>
         </div>
     )

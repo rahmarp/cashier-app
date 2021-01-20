@@ -11,13 +11,13 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function Counter(props) {
-    const disable = props.counter > 0
+    const disable = props.counters > 0
     const classes = useStyles()
     return (
         <div className={classes.root}>
             <ButtonGroup size="large" aria-label="small outlined button group">
                 <Button onClick={(e) => props.decrement(e)} disabled={!disable}>-</Button>
-                <Button disabled>{props.counter}</Button>
+                <Button >{props.counters}</Button>
                 <Button onClick={(e) => props.increment(e)}>+</Button>
             </ButtonGroup>
         </div>

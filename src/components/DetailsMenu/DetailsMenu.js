@@ -21,10 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 function DetailsMenu(props) {
     const classes = useStyles();
-    let menu = ""
-    for (let i in props.menu){
-        menu = props.menu[i].menu
-    }
+    let menu = props.menu.menu
     let length = 0
     if(props.menuRadio === undefined || props.menuRadio === {}){
         length = 0
@@ -32,7 +29,7 @@ function DetailsMenu(props) {
     else{
         length = props.menuRadio.length
     }
-    return (
+    return (        
         <div className={classes.root}>
             <Grid item xs={12}>
                 <Paper>
@@ -76,7 +73,7 @@ function DetailsMenu(props) {
                 <Paper>
                     <Counter 
                         increment={props.increment}
-                        counter={props.counter}
+                        counters={props.counter}
                         decrement={props.decrement} />
                 </Paper>
             </Grid>

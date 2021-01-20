@@ -7,16 +7,17 @@ export const addCart = ( item ) => {
     }
 }
 
-export const updateCart = ( item ) => {
+export const updateCart = ( item, cartId ) => {
     return {
         type: actionTypes.UPDATE_CART,
-        menu: item
+        menu: item,
+        cartId: cartId
     }
 }
 
 export const deleteCart = ( item ) => {
     return {
         type: actionTypes.DELETE_CART,
-        menu: item
+        cartId: item
     }
 }

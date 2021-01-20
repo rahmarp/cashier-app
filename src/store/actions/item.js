@@ -1,9 +1,15 @@
 import * as actionTypes from './actionTypes'
 
-export const getMenu = (menu) => {
+export const getMenu = (menu, cart, itemIds, levelId, qty, note) => {
     return {
         type: actionTypes.GET_MENU,
-        menu: menu
+        menu: menu, //menuId
+        cart: cart, //true or false
+        itemIds: itemIds, //[0,1,2,3]
+        levelId: levelId, //0,
+        qty: qty,
+        note: note
+
     }
 }
 

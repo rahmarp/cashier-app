@@ -23,13 +23,12 @@ class MenuPage extends Component {
         this.setState({
             show: count
         })
-        console.log(this.props.cart)
     }
 
     
-    getMenu = (menu) => {
+    getMenu = (menu,cart,itemIds,levelId,qty,note) => {
         //get menu by id
-        this.props.onGetMenu(menu)
+        this.props.onGetMenu(menu,cart,itemIds,levelId,qty,note)
         this.props.onGetItemAdd(menu)
         this.props.onGetItemLevel(menu)
     }
@@ -74,7 +73,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return{
-        onGetMenu: (menu) => dispatch(actions.getMenu(menu)),
+        onGetMenu: (menu,cart,itemIds,levelId,qty,note) => dispatch(actions.getMenu(menu,cart,itemIds,levelId,qty,note)),
         onGetItemAdd: (menu) => dispatch(actions.getMenuAdd(menu)),
         onGetItemLevel: (menu) => dispatch(actions.getMenuLevel(menu))
     }

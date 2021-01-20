@@ -7,15 +7,15 @@ const useStyles = makeStyles((theme) => ({
         position: 'sticky',
         top: '0px',
         width: '100%',
-        height: '50px',
+        height: '80px',
         zIndex: '1000',
-        boxShadow: '0 4px 14px 0 rgba(0, 0, 0, 0.15);',
+        boxShadow: '0 4px 14px 0 rgba(0, 0, 0, 0.15);'
     },
     navItems: {
       overflowX: 'scroll',
       width: '100%',
       whiteSpace: 'nowrap',
-      padding: '0rem'
+      padding: '1rem'
     },
     navLogo: {
         height: '60px',
@@ -34,8 +34,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'inline',
         marginRight: '2rem',
         color: '#333',
-        cursor: 'pointer',
-        marginTop: '5px'
+        cursor: 'pointer'
     },
     active: {
         borderBottom: '1x solid #333'
@@ -46,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
       },
       borderBottom: '1x solid #333',
     },
+
     close: {
         width: '15px',        
         marginTop: '3px'
@@ -62,9 +62,7 @@ export default function TabMenu(props) {
             <div className={classes.navContent}>
             <ul className={classes.navItems}>
                 <li className={classes.navItem}>
-                    <div onClick={props.back}>
-                        <img alt="close" className={classes.close} src="https://www.flaticon.com/svg/static/icons/svg/32/32178.svg"/>
-                    </div>
+                    <img alt="close" onClick={props.back} className={classes.close} src="https://www.flaticon.com/svg/static/icons/svg/32/32178.svg"/>
                 </li>
                 <li className={classes.navItem}>
                   {props.items}

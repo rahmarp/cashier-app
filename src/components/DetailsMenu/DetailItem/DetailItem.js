@@ -43,31 +43,31 @@ const useStyles = makeStyles((theme) => ({
 
 function DetailItem(props) {
     const classes = useStyles();
-    const detail = Object.keys(props.menu)
-      .map(obj => {
-        return (
-          <Grid container spacing={0} key={props.menu[obj].menu}>
-            <Grid item xs={8}>
-            <Typography className={classes.menu}>{props.menu[obj].menu}</Typography>
-            <Typography className={classes.description}>{props.menu[obj].description}</Typography>
-            </Grid>
-            <Grid item xs={4}>
-            <Typography className={classes.price}>
-            <NumberFormat value={props.menu[obj].price} displayType={'text'} thousandSeparator={true} prefix={'Rp '} /></Typography>
-            </Grid>
-            <Grid item xs={12}>
-            
-            </Grid>
-          </Grid>
+    // const detail = Object.keys(props.menu)
+    //   .map(obj => {
+    //     return (
           
-          )
-      })
+          
+    //       )
+    //   })
     
     return (
         <div className={classes.root}>
           <div className={classes.imgContainer}></div>
           <div className={classes.textContainer}>
-          {detail}
+          <Grid container spacing={0} key={props.menu.menu}>
+            <Grid item xs={8}>
+            <Typography className={classes.menu}>{props.menu.menu}</Typography>
+            <Typography className={classes.description}>{props.menu.description}</Typography>
+            </Grid>
+            <Grid item xs={4}>
+            <Typography className={classes.price}>
+            <NumberFormat value={props.menu.price} displayType={'text'} thousandSeparator={true} prefix={'Rp '} /></Typography>
+            </Grid>
+            <Grid item xs={12}>
+            
+            </Grid>
+          </Grid>
           </div>
         </div>
     )

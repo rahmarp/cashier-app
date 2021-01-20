@@ -14,9 +14,9 @@ class ItemDetails extends Component {
   
     this.state = {
       //qty
-      counter: 1,
-      added: false,
-      note: "",
+      counter: this.props.item.qty,
+      added: this.props.item.cart,
+      note: this.props.item.note,
       //checkbox 
       menuItem: "",
       workDays: [],
@@ -25,109 +25,88 @@ class ItemDetails extends Component {
       //radio
       levelPrice: 0,
       itemLevel: '',
+      cartId: ''
     }
     this.checkboxChangeHandler = this.checkboxChangeHandler.bind(this)
   }
 
   componentDidMount = () => {
-    const cart = this.props.cart
-
-    //remove object keys 
-    let items = {}
-    for (let i in this.props.item){
-      items = {
-        "id" : this.props.item[i].id,
-        "menu" : this.props.item[i].menu,
-        "description" : this.props.item[i].description,
-        "price" : this.props.item[i].price,
-        "item" : this.props.item[i].add,
-        "level" : this.props.item[i].level
-      }
-    }
-
-    //get cart
-    let countCarts =  this.props.cart.filter(obj => obj.menuId === items.id)
-    let countCart = []
-    let levelItem = ""
     
-    console.log(countCarts)
-    for (let i in countCarts){
-      countCart = countCarts[i].itemIds
-      levelItem = countCarts[i].levelId
-    }
 
     //get menuItem
-    let updateMenuItem = {}
     let countItemPrice = 0
-    if((this.props.menuAdd).length !== undefined){
-      updateMenuItem = (this.props.menuAdd).map(i => {
-        return {
-          id: i.id,
-          item: i.item,
-          itemPrice: i.itemPrice,
-          check: countCart.includes(i.id)
-        }
-      } )      
+    let itemIds = []
+    if((this.props.item.item).length !== undefined){    
       //show price of menuItem
-      let itemTrue = updateMenuItem.filter(obj => obj.check === true)
+      let itemTrue = this.props.item.item.filter(obj => obj.check === true)
       for (let i in itemTrue){
         countItemPrice += parseInt(itemTrue[i].itemPrice)
+        itemIds.push(itemTrue[i].id)
       }
     }
 
+
     //update menuLevel
-    let updateMenuLevel = {}
     let countLevelPrice = 0
-    if((this.props.menuLevel).length !== undefined){
-      updateMenuLevel = (this.props.menuLevel).map(i => {
-        return {
-          id: i.id,
-          level: i.level,
-          levelPrice: i.levelPrice,
-          check: levelItem === i.id
-        }
-      } )      
+    let levelItem = ''
+    if((this.props.item.level).length !== undefined){  
       //show price of menuLevel
-      let itemTrue = updateMenuLevel.filter(obj => obj.check === true)
+      let itemTrue = this.props.item.level.filter(obj => obj.check === true)
       for (let i in itemTrue){
         countLevelPrice += parseInt(itemTrue[i].levelPrice)
+        levelItem = itemTrue[i].id
       }
     }
-    const qty = Object.keys(cart)
-      .filter(obj => cart[obj].menu === items.menu)
-      .map(obj => {
-        return (          
-          cart[obj].qty
-        )   
-    })
-    const notes = cart.filter(obj => obj.menu === items.menu)
-    let note = ""
-    for (let i in notes){
-      note = notes[i].note
+    let carts = {}
+    let cartId = ''    
+    let key = ""
+    if(this.props.cart.length > 0){
+      carts = this.props.cart.filter(obj => obj.menuId === this.props.item.id)
+      console.log(carts)
+      if(carts.length > 0){
+        //getKey
+        let itemID = (itemIds).join('-')        
+        if(itemIds.length > 0){
+            if(levelItem !== ''){
+                key = this.props.item.id + '-' + itemID + '-' + levelItem
+            }
+            else{
+                key = this.props.item.id + '-' + itemID
+            }
+        }
+        else {
+            if(levelItem !== ''){
+                key = this.props.item.id + '-' + levelItem
+            }
+            else{
+                key = this.props.item.id
+            }
+        }
+        carts = carts.filter(obj => obj.key === key)
+        if(carts.length > 1){
+          carts = carts.filter(obj => obj.note === this.props.item.note)
+        }
+
+
+      }
+
+      for(let i in carts){
+        cartId = carts[i].id
+      }
+      
     }
-    const qtyInt = parseInt(qty)
-    const menu = Object.keys(cart)
-      .map(obj => {
-        return (          
-          cart[obj].menu
-        )   
-    })
-    var arraycontainsturtles = (menu.indexOf(items.menu) > -1);
-    // const menuItem = Object.keys()
-    if (arraycontainsturtles === true){
-      this.setState({
-        added: arraycontainsturtles,
-        counter: qtyInt,
-        note: note,
-      })
-    }
+      console.log(carts)
+      console.log(key)
+
+    
     this.setState({
-      menuItem: items,
-      optionalItem: updateMenuItem,
-      workDays: countCart,
+      menuItem: this.props.item,
+      optionalItem: this.props.item.item,
+      workDays: itemIds,
       itemLevel: levelItem,
       levelPrice: countLevelPrice,
-      addPrice: countItemPrice
+      addPrice: countItemPrice,
+      cartId: cartId
     })
   }
 
@@ -148,7 +127,7 @@ class ItemDetails extends Component {
     let updateMenuItem = {}
     let addprice = this.state.addPrice
     let price = 0
-    let itemTrue = this.props.menuAdd.filter(obj => obj.id === parseInt(event.target.value))
+    let itemTrue = this.props.item.item.filter(obj => obj.id === parseInt(event.target.value))
     for (let i in itemTrue){
       price = itemTrue[i].itemPrice
     } 
@@ -211,34 +190,35 @@ class ItemDetails extends Component {
     let cart = {
       "menuId": this.state.menuItem.id,
       "qty" : this.state.counter,
-      "price" : (this.state.menuItem.price + this.state.addPrice + this.state.levelPrice) * this.state.counter,
+      "price" : (this.props.item.price + this.state.addPrice + this.state.levelPrice) * this.state.counter,
       "note" : this.state.note,
-      "itemIds": this.state.workDays,
+      "itemIds": this.state.workDays.sort(),
       "levelId": this.state.itemLevel
     }
-    
-    console.log(cart)
+    // console.log(this.state.menuItem)
     this.props.onAddCart(cart)
     this.props.history.goBack() 
   }
-
   updateCartHandler = ( event ) => {
     event.preventDefault();
+    
     let cart = {
-      "menu": this.state.menuItem.menu,
+      "menuId": this.state.menuItem.id,
       "qty" : this.state.counter,
       "price" : (this.state.menuItem.price + this.state.addPrice + this.state.levelPrice)  * this.state.counter,
       "note" : this.state.note,
-      "item": this.state.workDays,
-      "level": this.state.itemLevel
+      "itemIds": this.state.workDays.sort(),
+      "levelId": this.state.itemLevel,
+      // "previousKey": this.getKey(this.state.menuItem.id)
     }
-    this.props.onUpdateCart(cart)
+    let cartId = this.state.cartId
+    this.props.onUpdateCart(cart,cartId)
     this.props.history.goBack() 
   }
 
   deleteCartHandler = (event) => {
     event.preventDefault();
-    let cart = this.state.menuItem.menu
+    let cart = this.state.cartId
     this.props.onDeleteCart(cart)
     this.props.history.goBack()
   }
@@ -248,7 +228,7 @@ class ItemDetails extends Component {
         <div>
           <Grid container spacing={0}>
               <TabMenu 
-              items={this.state.menuItem.menu}
+              items={this.props.item.menu}
               back={() => this.props.history.goBack()}/>
 
             <Grid item xs={12}>
@@ -256,7 +236,7 @@ class ItemDetails extends Component {
                 menu={this.props.item}
                 menuCheckbox={this.state.optionalItem}
                 checkHandler={this.checkboxChangeHandler}
-                menuRadio={this.props.menuLevel}
+                menuRadio={this.props.item.level}
                 valueRadio={this.state.itemLevel}
                 radioHandler={this.radioChangeHandler}
                 details={this.inputChangehandler}
@@ -270,9 +250,9 @@ class ItemDetails extends Component {
                 add={this.inputCartHandler} 
                 update={this.updateCartHandler}
                 delete={this.deleteCartHandler}
-                menuRadio={this.props.menuLevel}
+                menuRadio={this.props.item.level}
                 disable={this.state.itemLevel}
-                label={(this.state.menuItem.price + this.state.addPrice + this.state.levelPrice) * this.state.counter }
+                label={(this.props.item.price + this.state.addPrice + this.state.levelPrice) * this.state.counter }
                 count={this.state.counter}
                 added={this.state.added}/>
             </Grid>
@@ -295,7 +275,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return{
       onAddCart: (menu) => dispatch(actions.addCart(menu)),
-      onUpdateCart: (menu) => dispatch(actions.updateCart(menu)),
+      onUpdateCart: (menu,cartId) => dispatch(actions.updateCart(menu,cartId)),
       onDeleteCart: (menu) => dispatch(actions.deleteCart(menu))
   }
 }
