@@ -11,5 +11,6 @@ export {
 export {
     addCart,
     updateCart,
-    deleteCart
+    deleteCart,
+    setOrder
 } from './cart'

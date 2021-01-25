@@ -1,4 +1,4 @@
-import { Grid, makeStyles, Paper } from '@material-ui/core'
+import { Grid, makeStyles } from '@material-ui/core'
 import React from 'react'
 import CheckboxMenuAdd from './Checkbox/CheckboxMenuAdd';
 import Counter from './Counter/Counter';
@@ -10,7 +10,8 @@ const useStyles = makeStyles((theme) => ({
     root: {
         overflowY: 'scroll',
         marginBottom: '100px',
-        boxShadow: 'none'
+        boxShadow: 'none',
+        backgroundColor: '#f5f5f5'
     },
     paper: {
       padding: theme.spacing(2),
@@ -32,50 +33,40 @@ function DetailsMenu(props) {
     return (        
         <div className={classes.root}>
             <Grid item xs={12}>
-                <Paper>
                   <DetailItem menu={props.menu}/>
-                </Paper>
             </Grid>
 
             {props.menuCheckbox.length > 0 ? 
             <Grid item xs={12}>
-                <Paper>
                   <CheckboxMenuAdd 
                     menuAdd={props.menuCheckbox}
                     checkHandler={props.checkHandler}
                     menu={menu}
                     />
-                </Paper>
             </Grid>
             : null
             }
             {length !== 0 && length !== undefined ?
             <Grid item xs={12}>
-                <Paper>
                     <RadioButton 
                         menuLevel={props.menuRadio}
                         radioHandler={props.radioHandler}
                         value={props.valueRadio}/>
-                </Paper>
             </Grid>
             : null
             }
 
             <Grid item xs={12}>
-                <Paper>
                     <InputDetails 
                         details={props.details}
                         value={props.valueNote}/>
-                </Paper>
             </Grid>
 
             <Grid item xs={12}>
-                <Paper>
                     <Counter 
                         increment={props.increment}
                         counters={props.counter}
                         decrement={props.decrement} />
-                </Paper>
             </Grid>
             
         </div>

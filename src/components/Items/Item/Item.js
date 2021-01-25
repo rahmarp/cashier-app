@@ -1,4 +1,4 @@
-import { Dialog, DialogActions, DialogContent, DialogTitle, Grid, makeStyles, Slide, Typography, Button} from '@material-ui/core';
+import { Dialog, Grid, makeStyles, Slide, Typography, Button} from '@material-ui/core';
 import React from 'react';
 import NumberFormat from 'react-number-format';
 import { Link } from 'react-router-dom';
@@ -20,11 +20,9 @@ const useStyles = makeStyles((theme) => ({
         float: 'left'
     },
     price: {
-        position:'absolute',
-        bottom:'1rem',
-        right: '0',
         fontWeight: 'bold',
-        color: 'black'
+        color: 'black',
+        textAlign: 'right'
     },
     caption: {
         fontSize: '7pt',
@@ -42,20 +40,39 @@ const useStyles = makeStyles((theme) => ({
     dialogPrice: {
         fontSize: '10pt',
         fontWeight: 'bold',
+        textAlign: 'right'
     },
     menuOptional: {
         fontSize: '10pt',
-        paddingRight: '10px'
     },
     priceOptional: {
         fontSize: '10pt',
-        paddingLeft: '10px'
     },
     items: {
-        paddingTop: '10px'
+        padding: '1rem'
     },
     buttonConfirm: {
         width: '100%'
+    },
+    confirmDialog:{
+        padding: '1rem'
+    },
+    link: {
+        textDecoration: 'none',
+        color: 'black'
+    },
+    line: {
+        border: '1px solid #f5f5f5'
+    },
+    textRight: {
+        textAlign: 'right'
+    },
+    headerConfirmDialog: {
+        paddingBottom: '20px'
+
+    },
+    count: {
+        color:'#2980b9'
     }
 }))
 
@@ -143,20 +160,25 @@ export const Item = (props) => {
         const cartI = cart.filter(obj => obj.menuId === menus)
         const cartII = cartI.map(menuKey => {
             return(
-                <div key={menuKey.id} id={menuKey.id} className={classes.items} >
-                    <Link to={`/menu/${menuKey.menuId}`}>
-                    <Grid container spacing={3} onClick={() => props.getItem(menuKey.menuId,clickShow(menuKey.menuId),menuKey.itemIds,menuKey.levelId,menuKey.qty, menuKey.note)}>
-                    <Grid item xs={1}>
-                    <span className={classes.menuOptional}>{menuKey.qty}x</span>
-                    </Grid>
-                    <Grid item xs={8}>
-                    <span className={classes.menuOptional}>{getItem(menuId, menuKey.itemIds, menuKey.levelId)}</span>
-                    </Grid>
-                    <Grid item xs={3}>
-                    <span className={classes.priceOptional}>{menuKey.price}</span>
-                    </Grid>
+                <div key={menuKey.id} id={menuKey.id} >
+                    <Link to={`/menu/${menuKey.menuId}`} className={classes.link}>
+                    <Grid container onClick={() => props.getItem(menuKey.menuId,clickShow(menuKey.menuId),menuKey.itemIds,menuKey.levelId,menuKey.qty, menuKey.note)}>
+                        <Grid item xs={1}>
+                        <span className={classes.menuOptional}> {menuKey.qty}x </span>
+                        </Grid>
+                        <Grid item xs={8}>
+                        <span className={classes.menuOptional}>
+                                {getItem(menuId, menuKey.itemIds, menuKey.levelId)}
+                        </span>
+                        </Grid>
+                        <Grid item xs={3} className={classes.textRight}>
+                        <span className={classes.priceOptional}>
+                        <NumberFormat value={menuKey.price} displayType={'text'} thousandSeparator={true}/>
+                        </span>
+                        </Grid>
                     </Grid>
                     </Link>
+                    <hr className={classes.line}/>
                 </div>
             )
         })
@@ -166,24 +188,28 @@ export const Item = (props) => {
     const confirmDialog = devReact.filter(obj => obj.id === (menuId))
         .map((menuKey, index) => {
             return(
-                <div key={menuKey.id} id={menuKey.id} className={classes.root}>
-                <DialogTitle id="alert-dialog-slide-title">
+                <div key={menuKey.id} id={menuKey.id} className={classes.confirmDialog}>
+                {/* <DialogTitle id="alert-dialog-slide-title"> */}
+                <Grid container className={classes.headerConfirmDialog}>
+                    <Grid item xs={9}>
                     <span className={classes.dialogHeader}>{menuKey.menu}</span>
+                    </Grid>
+                    <Grid item xs={3} className={classes.textRight}>
                     <span className={classes.dialogPrice}><NumberFormat value={menuKey.price} displayType={'text'} thousandSeparator={true}/></span>
-                </DialogTitle>
-
-                <DialogContent>
-                
+                    </Grid>
+                </Grid>
+                {/* </DialogTitle> */}
+                {/* <DialogContent> */}
                 {cartItem(menuKey.id)}
-                </DialogContent>
-                <DialogActions>
+                {/* </DialogContent> */}
+                {/* <DialogActions> */}
                 <Link to={`/menu/${menuKey.id}`}>
                 <Button className={classes.buttonConfirm} variant="contained" 
                     onClick={() => props.getItem(menuKey.id,false,null,null)} color="primary">
                     Make Another
                 </Button>
                 </Link>
-                </DialogActions>
+                {/* </DialogActions> */}
                 </div>
             )
         })
@@ -235,10 +261,16 @@ export const Item = (props) => {
                             <Grid item xs={7} className={classes.textContainer}>
                             <Typography variant="subtitle2" className={classes.header} >{devReact[menuKey].menu}</Typography>
                             <Typography variant="caption" className={classes.caption} >{devReact[menuKey].description}</Typography>
-                            <Typography variant="subtitle2" className={classes.header} >{countCart(devReact[menuKey].id) === 0 ? "" : countCart(devReact[menuKey].id) + "x " }</Typography>
-                            <Typography variant="subtitle2" className={classes.price} >
-                                <NumberFormat value={devReact[menuKey].price} displayType={'text'} thousandSeparator={true}/>
-                            </Typography>
+                            <Grid container>
+                              <Grid item xs={6}>
+                              <Typography variant="subtitle2" className={classes.count} >{countCart(devReact[menuKey].id) === 0 ? "" : countCart(devReact[menuKey].id) + "x " }</Typography>
+                              </Grid>
+                              <Grid item xs={6}>
+                              <Typography variant="subtitle2" className={classes.price} >
+                              <NumberFormat value={devReact[menuKey].price} displayType={'text'} thousandSeparator={true}/>
+                              </Typography>
+                              </Grid>
+                          </Grid>
                             </Grid>
                             </Grid> 
                             </div>
@@ -252,10 +284,16 @@ export const Item = (props) => {
                                 <Grid item xs={7} className={classes.textContainer}>
                                 <Typography variant="subtitle2" className={classes.header} >{devReact[menuKey].menu}</Typography>
                                 <Typography variant="caption" className={classes.caption} >{devReact[menuKey].description}</Typography>
-                                <Typography variant="subtitle2" className={classes.header} >{countCart(devReact[menuKey].id) === 0 ? "" : countCart(devReact[menuKey].id) + "x " }</Typography>
-                                <Typography variant="subtitle2" className={classes.price} >
+                                <Grid container>
+                                    <Grid item xs={6}>
+                                    <Typography variant="subtitle2" className={classes.count} >{countCart(devReact[menuKey].id) === 0 ? "" : countCart(devReact[menuKey].id) + "x " }</Typography>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                    <Typography variant="subtitle2" className={classes.price} >
                                     <NumberFormat value={devReact[menuKey].price} displayType={'text'} thousandSeparator={true}/>
-                                </Typography>
+                                    </Typography>
+                                    </Grid>
+                                </Grid>
                                 </Grid>
                             </Grid>   
                             </Link>
@@ -272,10 +310,16 @@ export const Item = (props) => {
                           <Grid item xs={7} className={classes.textContainer}>
                           <Typography variant="subtitle2" className={classes.header} >{devReact[menuKey].menu}</Typography>
                           <Typography variant="caption" className={classes.caption} >{devReact[menuKey].description}</Typography>
-                          <Typography variant="subtitle2" className={classes.header} >{countCart(devReact[menuKey].id) === 0 ? "" : countCart(devReact[menuKey].id) + "x " }</Typography>
-                          <Typography variant="subtitle2" className={classes.price} >
+                          <Grid container>
+                              <Grid item xs={6}>
+                              <Typography variant="subtitle2" className={classes.count} >{countCart(devReact[menuKey].id) === 0 ? "" : countCart(devReact[menuKey].id) + "x " }</Typography>
+                              </Grid>
+                              <Grid item xs={6}>
+                              <Typography variant="subtitle2" className={classes.price} >
                               <NumberFormat value={devReact[menuKey].price} displayType={'text'} thousandSeparator={true}/>
-                          </Typography>
+                              </Typography>
+                              </Grid>
+                          </Grid>
                           </Grid>
                       </Grid>   
                       </Link>
@@ -288,6 +332,7 @@ export const Item = (props) => {
         <div>
             {itemCategory}
             <Dialog
+            fullWidth={true}
             open={open}
             TransitionComponent={Transition}
             keepMounted

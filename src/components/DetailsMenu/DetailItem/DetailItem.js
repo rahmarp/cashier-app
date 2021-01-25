@@ -27,10 +27,10 @@ const useStyles = makeStyles((theme) => ({
       fontWeight: 'bold'
     },
     price: {
-      paddingTop: '1rem',
-      paddingLeft: '1rem',
-      fontSize: '16pt',
-      fontWeight: 'bold'
+      // paddingTop: '1rem',
+      fontSize: '12pt',
+      fontWeight: 'bold',
+      textAlign: 'right'
       
     },
     description: {

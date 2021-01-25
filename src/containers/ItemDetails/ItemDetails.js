@@ -62,7 +62,6 @@ class ItemDetails extends Component {
     let key = ""
     if(this.props.cart.length > 0){
       carts = this.props.cart.filter(obj => obj.menuId === this.props.item.id)
-      console.log(carts)
       if(carts.length > 0){
         //getKey
         let itemID = (itemIds).join('-')        
@@ -95,8 +94,6 @@ class ItemDetails extends Component {
       }
       
     }
-      console.log(carts)
-      console.log(key)
 
     
     this.setState({
@@ -195,13 +192,11 @@ class ItemDetails extends Component {
       "itemIds": this.state.workDays.sort(),
       "levelId": this.state.itemLevel
     }
-    // console.log(this.state.menuItem)
     this.props.onAddCart(cart)
     this.props.history.goBack() 
   }
   updateCartHandler = ( event ) => {
     event.preventDefault();
-    
     let cart = {
       "menuId": this.state.menuItem.id,
       "qty" : this.state.counter,

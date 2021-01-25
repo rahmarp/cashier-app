@@ -297,7 +297,6 @@ const getMenu = (state,action) => {
             }
         }
     }
-     console.log(menu)
     return updatedObject(state, {
         menuItem: menu
     })

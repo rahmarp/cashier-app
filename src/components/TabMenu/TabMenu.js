@@ -3,19 +3,17 @@ import React from 'react'
 
 const useStyles = makeStyles((theme) => ({
     nav: {
-        backgroundColor: '#fafafa',
+        backgroundColor: '#fff',
         position: 'sticky',
         top: '0px',
         width: '100%',
-        height: '80px',
+        height: '60px',
         zIndex: '1000',
-        boxShadow: '0 4px 14px 0 rgba(0, 0, 0, 0.15);'
     },
     navItems: {
-      overflowX: 'scroll',
       width: '100%',
       whiteSpace: 'nowrap',
-      padding: '1rem'
+      paddingInlineStart: '0'
     },
     navLogo: {
         height: '60px',

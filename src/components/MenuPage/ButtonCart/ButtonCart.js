@@ -16,10 +16,16 @@ const useStyles = makeStyles((theme) => ({
         borderTop: '1px #CACACA solid'
     },
     button: {
-        width: '80%',
-        alignItems: "center",
+        width: '95%',
         marginTop: '25px',
-        height: "50px"
+        height: "50px",
+    },
+    buttonContainer: {
+        width: '100%',
+        textAlign: 'center',
+        position: 'absolute',
+        bottom: '2rem',
+        left: '0'
     },
     left: {
         position: 'absolute',
@@ -35,15 +41,16 @@ function ButtonCart(props) {
     const classes = useStyles()
     return (
         <div className={classes.root}>
-            <Grid>
-
+            <Grid container>
+                <Grid item xs={12} className={classes.buttonContainer}>
+                    <Link to="/cart">
+                    <Button variant="contained" color="primary" className={classes.button}>
+                        <span className={classes.left}>{props.item} Items</span>
+                        <span className={classes.right}><NumberFormat value={props.subTotal} displayType={'text'} thousandSeparator={true} /> </span>
+                    </Button>
+                    </Link>
+                </Grid>
             </Grid>
-            <Link to="/cart">
-            <Button variant="contained" color="primary" className={classes.button}>
-                <span className={classes.left}>{props.item} Items</span>
-                <span className={classes.right}><NumberFormat value={props.subTotal} displayType={'text'} thousandSeparator={true} prefix={'Rp '} /> </span>
-            </Button>
-            </Link>
         </div>
     )
 }

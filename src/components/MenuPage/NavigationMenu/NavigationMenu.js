@@ -4,11 +4,11 @@ import { Link } from 'react-scroll'
 
 const useStyles = makeStyles((theme) => ({
     nav: {
-        backgroundColor: '#fafafa',
+        backgroundColor: '#fff',
         position: 'sticky',
         top: '0px',
         width: '100%',
-        height: '80px',
+        height: '60px',
         zIndex: '1000',
         boxShadow: '0 4px 14px 0 rgba(0, 0, 0, 0.15);'
     },
@@ -16,7 +16,10 @@ const useStyles = makeStyles((theme) => ({
       overflowX: 'scroll',
       width: '100%',
       whiteSpace: 'nowrap',
-      padding: '1rem'
+      paddingInlineStart: '1rem',
+      '&::-webkit-scrollbar': {
+        display: 'none'
+      }
     },
     navLogo: {
         height: '60px',
@@ -35,16 +38,16 @@ const useStyles = makeStyles((theme) => ({
         display: 'inline',
         marginRight: '2rem',
         color: '#333',
-        cursor: 'pointer'
+        cursor: 'pointer',
     },
     active: {
-        borderBottom: '1x solid #333'
+        fontWeight: 'bold'
     },
     link: {
-      "&.active":{
-        borderBottom: '1x solid #333'
+      '&:active':{
+        borderBottom: '1px solid #333'
       },
-      borderBottom: '1x solid #333',
+      color: '#333',
     }
 
 
@@ -58,7 +61,7 @@ export default function NavigationMenu(props) {
         return (
           <li key={index} className={classes.navItem}>
             <Link 
-              activeClass="active"
+              activeClass={classes.active}
               className={classes.link}
               to={props.items[catKey].title}
               spy={true}

@@ -16,8 +16,9 @@ const useStyles = makeStyles((theme) => ({
     borderTop: '1px #CACACA solid'
   },
     button: {
-      width: '70%',
-      float: 'auto',
+      width: '95%',
+      marginTop: '25px',
+      height: "50px",
   },
     buttonContainer: {
       width: '100%',

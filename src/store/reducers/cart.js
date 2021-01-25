@@ -4,6 +4,7 @@ import { updatedObject } from '../../utility'
 const initialState = {
     cart: [],
     counter: 0,
+    order: []
 }
 
 const addCart = (state, action) => {
@@ -26,7 +27,6 @@ const addCart = (state, action) => {
         }
     }
     let index = state.cart.findIndex(obj => obj.key === key && obj.note === action.menu.note)
-    console.log(key)
 
     let currentCart = {
         id: state.counter,
@@ -64,89 +64,78 @@ const addCart = (state, action) => {
     
 }
 
-const updateCart = (state, action) => { 
-    let newArray = [...state.cart] 
-    if(action.menu.itemIds.length > 0 || action.menu.levelId !== '' ) {
-        let itemID = (action.menu.itemIds).join('-')
-        let key = ""
-        if(action.menu.itemIds.length > 0){
-            if(action.menu.levelId !== ''){
-                key = action.menu.menuId + '-' + itemID + '-' + action.menu.levelId
-            }
-            else{
-                key = action.menu.menuId + '-' + itemID
-            }
+const updateCart = (state, action) => {
+    let newArray = [...state.cart]
+    let index = newArray.findIndex(obj => obj.id === action.cartId)
+    let itemID = (action.menu.itemIds).join('-')
+    let key = ""
+    if(action.menu.itemIds.length > 0){
+        if(action.menu.levelId !== ''){
+            key = action.menu.menuId + '-' + itemID + '-' + action.menu.levelId
         }
-        else {
-            if(action.menu.levelId !== ''){
-                key = action.menu.menuId + '-' + action.menu.levelId
-            }
-            else{
-                key = action.menu.menuId
-            }
-        }
-        let indexKey = newArray.findIndex(obj => obj.key === key && obj.note === action.menu.note)
-        let newArrays = newArray.filter(obj => obj.key === key)
-
-        
-        console.log(newArrays)
-        
-        if(newArrays.length > 1){
-            newArrays = newArrays.filter(obj => obj.note === action.menu.note)
-                if(newArrays.length > 1){
-                    newArray[indexKey].qty += action.menu.qty
-                    newArray[indexKey].price += action.menu.price
-                    newArray = newArray.filter(cart => cart.id !== action.cartId)
-                    return updatedObject( state, {
-                        cart: newArray
-                    })
-                }
-                else {
-                    newArray[indexKey].qty += action.menu.qty
-                    newArray[indexKey].price += action.menu.price
-                    newArray = newArray.filter(cart => cart.id !== action.cartId)
-                    return updatedObject( state, {
-                        cart: newArray
-                    })
-                }
-            
-            
-            
-        }
-        else {
-            let updateCart = {
-                id: action.cartId,
-                key: key,
-                menuId: action.menu.menuId,
-                qty: action.menu.qty,
-                price: action.menu.price,
-                note: action.menu.note,
-                itemIds: action.menu.itemIds,
-                levelId: action.menu.levelId
-            }
-            newArray[action.cartId] = updateCart
-            return updatedObject( state, {
-                cart: newArray
-            })
-            
+        else{
+            key = action.menu.menuId + '-' + itemID
         }
     }
-    else{
-        let updateCart = {
-            id: action.cartId,
-            key: action.menu.menuId,
-            menuId: action.menu.menuId,
-            qty: action.menu.qty,
-            price: action.menu.price,
-            note: action.menu.note,
-            itemIds: action.menu.itemIds,
-            levelId: action.menu.levelId
+    else {
+        if(action.menu.levelId !== ''){
+            key = action.menu.menuId + '-' + action.menu.levelId
         }
-        newArray[action.cartId] = updateCart
+        else{
+            key = action.menu.menuId
+        }
+    }
+     
+    let indexKey = newArray.findIndex(obj => obj.key === key && obj.note === action.menu.note)
+    let newArrays = newArray.filter(obj => obj.key === key)
+    let newestArray = newArray.filter(obj => obj.menuId === action.menu.menuId)
+
+    let updateCart = {
+        id: action.cartId,
+        key: key,
+        menuId: action.menu.menuId,
+        qty: action.menu.qty,
+        price: action.menu.price,
+        note: action.menu.note,
+        itemIds: action.menu.itemIds,
+        levelId: action.menu.levelId
+    }
+
+    //if cart has 1 menu
+    if(newestArray.length === 1){
+        newArray[index] = updateCart
         return updatedObject( state, {
             cart: newArray
         })
-        
+    }
+    else{
+        //if key in cart same with current(updated) key
+        if(newArrays.length > 0){
+            newArrays = newArrays.filter(obj => obj.note === action.menu.note)
+            //if note in cart same with current(updated) note
+            if(newArrays.length > 0){
+                if(newArray[indexKey].id !== action.cartId){
+                    newArray[indexKey].qty += action.menu.qty
+                    newArray[indexKey].price += action.menu.price
+                    newArray = newArray.filter(cart => cart.id !== action.cartId)
+                }
+                return updatedObject( state, {
+                    cart: newArray
+                })
+            }
+            else{
+                newArray[index] = updateCart
+                return updatedObject( state, {
+                    cart: newArray
+                })
+            }
+        }
+        else{
+            newArray[index] = updateCart
+            return updatedObject( state, {
+                cart: newArray
+            })
+        }
     }
 }
 
@@ -158,13 +147,23 @@ const deleteCart = (state, action) => {
     
 }
 
+const setOrder = (state, action) => {
+    return updatedObject( state, {
+        cart: action.cart
+    }) 
+}
+
 const reducer = ( state = initialState, action ) => {
     switch (action.type) {
         case actionTypes.ADD_CART: return addCart(state,action)
         case actionTypes.UPDATE_CART : return updateCart(state,action)
         case actionTypes.DELETE_CART : return deleteCart(state, action)
+        case actionTypes.SET_ORDER : return setOrder(state, action)
         default: return state;
     }
 }
 
 export default reducer
+
+
+

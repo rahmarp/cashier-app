@@ -21,3 +21,10 @@ export const deleteCart = ( item ) => {
         cartId: item
     }
 }
+
+export const setOrder = (cart) => {
+    return {
+        type: actionTypes.SET_ORDER,
+        cart:cart
+    }
+}
